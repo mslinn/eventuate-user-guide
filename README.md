@@ -1,4 +1,4 @@
-# Scala Project Template #
+# Eventuate Sourced Actors - User Guide
 
 [![Build Status](https://travis-ci.org/mslinn/eventuate-event-sourced-actors.svg?branch=master)](https://travis-ci.org/mslinn/sbtTemplate)
 
