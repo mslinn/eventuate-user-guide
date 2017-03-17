@@ -43,7 +43,7 @@ val evVer = "0.8.1"
 libraryDependencies ++= Seq(
   "com.rbmhtechnology" %% "eventuate-core"           % evVer withSources(),
 //  "com.rbmhtechnology" %% "eventuate-crdt"           % evVer withSources(),
-//  "com.rbmhtechnology" %% "eventuate-log-leveldb"    % evVer withSources(),
+  "com.rbmhtechnology" %% "eventuate-log-leveldb"    % evVer withSources(),
 //  "com.rbmhtechnology" %% "eventuate-log-cassandra"  % evVer withSources(),
 //  "com.rbmhtechnology" %% "eventuate-adapter-stream" % evVer withSources(),
 //  "com.rbmhtechnology" %% "eventuate-adapter-vertx"  % evVer withSources(),
