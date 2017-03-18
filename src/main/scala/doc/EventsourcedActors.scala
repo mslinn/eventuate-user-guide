@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 - 2016 Red Bull Media House GmbH <http://www.redbullmediahouse.com> - all rights reserved.
+ * Copyright 2015 - 2017 Red Bull Media House GmbH <http://www.redbullmediahouse.com> - all rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,17 +60,16 @@ object EventsourcedActors extends App {
   import com.rbmhtechnology.eventuate.log.leveldb.LeveldbEventLog
 
   //#create-one-instance
-  val system: ActorSystem = // ...
+  implicit val system: ActorSystem = // ...
   //#
   ActorSystem(DefaultRemoteSystemName)
 
   //#create-one-instance
-  val eventLog: ActorRef = // ... an instance of a [[LeveldbEventLog]] configuration object
+  val eventLog: ActorRef = // ... an instance of a LeveldbEventLog configuration object
   //#
   system.actorOf(LeveldbEventLog.props("qt-1"))
 
   //#create-one-instance
-
   val ea1 = system.actorOf(Props(new ExampleActor("1", Some("a"), eventLog)))
 
   ea1 ! Append("a")
@@ -121,12 +120,5 @@ object EventsourcedActors extends App {
   d4 ! Print
   d5 ! Print
 
-  // pause for messages to be displayed
-  import scala.concurrent.duration._
-  import system.dispatcher
-  import scala.language.postfixOps
-  system.scheduler.scheduleOnce(1 second) {
-    system.terminate()
-    ()
-  }
+  Util.pauseThenStop()
 }
