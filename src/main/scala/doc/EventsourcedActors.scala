@@ -56,20 +56,23 @@ object EventsourcedActors extends App {
   }
   //#
 
-  import com.rbmhtechnology.eventuate.ReplicationConnection._
   import com.rbmhtechnology.eventuate.log.leveldb.LeveldbEventLog
 
   //#create-one-instance
-  implicit val system: ActorSystem = // ...
+  import com.rbmhtechnology.eventuate.ReplicationConnection._
+
+  // `DefaultRemoteSystemName` is defined as "location" in com.rbmhtechnology.eventuate.ReplicationConnection
+  implicit val system: ActorSystem = ActorSystem(DefaultRemoteSystemName) // ActorSystem name is "location"
   //#
-  ActorSystem(DefaultRemoteSystemName)
 
   //#create-one-instance
-  val eventLog: ActorRef = // ... an instance of a LeveldbEventLog configuration object
+  // Wrap a new instance of a `LeveldbEventLog` configuration object with log id "qt-1" into an Actor
+  val eventLog: ActorRef = system.actorOf(LeveldbEventLog.props("qt-1"))
   //#
-  system.actorOf(LeveldbEventLog.props("qt-1"))
 
   //#create-one-instance
+  // Create a new instance of `ExampleActor` with `id` "1" and `aggregateId` Some("a");
+  // also provide the `eventLog` [[ActorRef]] to the `actorOf` [[akka.actor.Actor]] factory
   val ea1 = system.actorOf(Props(new ExampleActor("1", Some("a"), eventLog)))
 
   ea1 ! Append("a")
