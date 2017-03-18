@@ -55,8 +55,7 @@ reading sources... [100%] user-guide
 /mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/adapters/vertx.rst:210: WARNING: Include file u'/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/adapters/../../../eventuate-example-vertx/src/main/java/com/rbmhtechnology/docs/vertx/japi/Documentation.java' not found or reading it failed
 /mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/adapters/vertx.rst:217: WARNING: Include file u'/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/adapters/../../../eventuate-example-vertx/src/main/scala/com/rbmhtechnology/docs/vertx/Documentation.scala' not found or reading it failed
 /mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/adapters/vertx.rst:219: WARNING: Include file u'/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/adapters/../../../eventuate-example-vertx/src/main/java/com/rbmhtechnology/docs/vertx/japi/Documentation.java' not found or reading it failed
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:275: WARNING: Include file u'/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/../../eventuate-crdt/main/scala/com/rbmhtechnology/eventuate/crdt/ORSet.scala' not found or reading it failed
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:350: WARNING: Snippet "event-driven-communication" not found!
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:336: WARNING: Include file u'/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/../../eventuate-crdt/main/scala/com/rbmhtechnology/eventuate/crdt/ORSet.scala' not found or reading it failed
 looking for now-outdated files... none found
 pickling environment... done
 checking consistency... /mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/adapters/spark.rst:: WARNING: document isn't included in any toctree
@@ -70,11 +69,11 @@ writing output... [ 40%] adapters/stream
 writing output... [ 60%] adapters/vertx
 writing output... [ 80%] index
 writing output... [100%] user-guide
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:99: WARNING: Could not lex literal_block as "scala". Highlighting skipped.
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:103: WARNING: Could not lex literal_block as "scala". Highlighting skipped.
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:131: WARNING: Could not lex literal_block as "scala". Highlighting skipped.
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:147: WARNING: Could not lex literal_block as "scala". Highlighting skipped.
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:160: WARNING: Could not lex literal_block as "scala". Highlighting skipped.
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:101: WARNING: Could not lex literal_block as "scala". Highlighting skipped.
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:106: WARNING: Could not lex literal_block as "scala". Highlighting skipped.
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:138: WARNING: Could not lex literal_block as "scala". Highlighting skipped.
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:156: WARNING: Could not lex literal_block as "scala". Highlighting skipped.
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:169: WARNING: Could not lex literal_block as "scala". Highlighting skipped.
 
 /mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/adapters/spark.rst:9: WARNING: undefined label: download (if the link has no caption the label must precede a section header)
 /mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/adapters/spark.rst:17: WARNING: undefined label: cassandra-storage-backend (if the link has no caption the label must precede a section header)
@@ -93,21 +92,21 @@ writing output... [100%] user-guide
 /mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:7: WARNING: undefined label: overview (if the link has no caption the label must precede a section header)
 /mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:7: WARNING: undefined label: architecture (if the link has no caption the label must precede a section header)
 /mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:21: WARNING: undefined label: reference (if the link has no caption the label must precede a section header)
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:71: WARNING: undefined label: event-log (if the link has no caption the label must precede a section header)
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:106: WARNING: undefined label: replicated-event-log (if the link has no caption the label must precede a section header)
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:173: WARNING: undefined label: vector-clocks (if the link has no caption the label must precede a section header)
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:209: WARNING: undefined label: event-routing (if the link has no caption the label must precede a section header)
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:257: WARNING: undefined label: example-application (if the link has no caption the label must precede a section header)
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:268: WARNING: undefined label: replicated-event-log (if the link has no caption the label must precede a section header)
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:282: WARNING: undefined label: snapshots (if the link has no caption the label must precede a section header)
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:307: WARNING: undefined label: event-routing (if the link has no caption the label must precede a section header)
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:310: WARNING: undefined label: ref-event-sourced-writers (if the link has no caption the label must precede a section header)
-/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:310: WARNING: undefined label: ref-event-sourced-processors (if the link has no caption the label must precede a section header)
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:73: WARNING: undefined label: event-log (if the link has no caption the label must precede a section header)
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:109: WARNING: undefined label: replicated-event-log (if the link has no caption the label must precede a section header)
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:188: WARNING: undefined label: vector-clocks (if the link has no caption the label must precede a section header)
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:246: WARNING: undefined label: event-routing (if the link has no caption the label must precede a section header)
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:305: WARNING: undefined label: example-application (if the link has no caption the label must precede a section header)
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:322: WARNING: undefined label: replicated-event-log (if the link has no caption the label must precede a section header)
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:348: WARNING: undefined label: snapshots (if the link has no caption the label must precede a section header)
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:379: WARNING: undefined label: event-routing (if the link has no caption the label must precede a section header)
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:385: WARNING: undefined label: ref-event-sourced-writers (if the link has no caption the label must precede a section header)
+/mnt/c/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst:385: WARNING: undefined label: ref-event-sourced-processors (if the link has no caption the label must precede a section header)
 generating indices... genindex
 writing additional pages... search
 copying static files... done
 copying extra files... done
 dumping search index in English (code: en) ... done
 dumping object inventory... done
-build succeeded, 81 warnings.
+build succeeded, 80 warnings.
 Copying tabbedcode stylesheet/javascript... done
