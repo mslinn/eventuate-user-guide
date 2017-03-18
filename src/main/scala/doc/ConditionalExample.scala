@@ -16,7 +16,7 @@
 
 package doc
 
-object ConditionalRequestsDemo extends App with ConditionalRequestsLike {
+object ConditionalExample extends App with ConditionalRequestsLike {
   Util.pauseThenStop()
 }
 
@@ -27,6 +27,7 @@ trait ConditionalRequestsLike {
   import doc.EventsourcedViews._
 
   implicit val system: ActorSystem = ActorSystem(ReplicationConnection.DefaultRemoteSystemName)
+  // This will create a directory called `target/log-qt-2/` to contain the log files
   val eventLog: ActorRef = system.actorOf(LeveldbEventLog.props("qt-2"))
 
   //#conditional-requests

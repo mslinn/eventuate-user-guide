@@ -16,7 +16,8 @@
 
 package doc
 
-/** Not referenced anywhere in `RBMHTechnology/eventuate`. Why is it here? */
+/** Referenced `TrackingExample`.
+  * TODO merge with ActorExample, or other code, as appropriate. */
 object EventsourcedActorsUpdated {
   import akka.actor._
   import scala.util._

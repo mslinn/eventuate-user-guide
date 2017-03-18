@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.13.1: http://docutils.sourceforge.net/" />
+<title>User guide</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="id1">
+<span id="user-guide"></span>
+<h1 class="title">User guide</h1>
+
+<p>This is a brief user guide to Eventuate.
+You should read sections <a href="#id2"><span class="problematic" id="id3">:ref:`overview`</span></a> and <a href="#id4"><span class="problematic" id="id5">:ref:`architecture`</span></a> first.
+This user guide presents simple examples that demonstrate how to:</p>
+<div class="system-message" id="id2">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 7); <em><a href="#id3">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="system-message" id="id4">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 7); <em><a href="#id5">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<ul class="simple">
+<li>implement an event-sourced actor</li>
+<li>replicate actor state with event sourcing</li>
+<li>detect concurrent updates to replicated state</li>
+<li>track conflicts from concurrent updates</li>
+<li>resolve conflicts automatically and interactively</li>
+<li>make concurrent updates conflict-free with operation-based CRDTs</li>
+<li>implement an event-sourced view over many event-sourced actors</li>
+<li>achieve causal read consistency across event-sourced actors and views and</li>
+<li>implement event-driven communication between event-sourced actors.</li>
+</ul>
+<p>The user guide only scratches the surface of Eventuate.
+You can find further details in the <a href="#id6"><span class="problematic" id="id7">:ref:`reference`</span></a>.</p>
+<div class="system-message" id="id6">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 21); <em><a href="#id7">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="section" id="event-sourced-actors">
+<span id="guide-event-sourced-actors"></span><h1>Event-sourced actors</h1>
+<p>An event-sourced actor is an actor that captures changes to its internal state as a sequence of events.
+It <em>persists</em> these events to an event log and <em>replays</em> them to recover internal state after a crash or a planned re-start.
+This is the basic idea behind <a class="reference external" href="http://martinfowler.com/eaaDev/EventSourcing.html">event sourcing</a>: instead of storing current application state,
+the full history of changes is stored as <em>immutable facts</em> and current state is derived from these facts.</p>
+<p>Event-sourced actors distinguish between <em>commands</em> and <em>events</em>.
+During command processing they usually validate external commands against internal state and, if validation succeeds,
+write one or more events to their event log.
+During event processing they consume events they have written and update internal state by handling these events.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p>Event-sourced actors can also write new events during event processing.
+This is covered in section <a href="#id8"><span class="problematic" id="id9">:ref:`guide-event-driven-communication`</span></a>.</p>
+<div class="last system-message" id="id8">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 40); <em><a href="#id9">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</div>
+<p>Concrete event-sourced actors must implement the <tt class="docutils literal">EventsourcedActor_</tt> trait, which defines the <tt class="docutils literal">onCommand</tt> method which acts as a message handler.
+The following <tt class="docutils literal">ExampleActor</tt> encapsulates state <tt class="docutils literal">currentState</tt> of type <tt class="docutils literal">Vector[String]</tt>, to which entries can be appended:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 46)</p>
+<p>Unknown directive type &quot;tabbed-code&quot;.</p>
+<pre class="literal-block">
+.. tabbed-code::
+   .. includecode:: ../src/main/scala/doc/EventsourcedActors.scala
+      :snippet: event-sourced-actor
+   .. includecode:: ../src/main/java/doc/ActorExample.java
+      :snippet: event-sourced-actor
+
+</pre>
+</div>
+<p>When an event-sourced actor receives a command, it first persists it, then modifies its internal state.
+Here is an example sequence:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 54)</p>
+Unexpected indentation.</div>
+<blockquote>
+<ol class="arabic simple">
+<li>An <tt class="docutils literal">Append</tt> command is received by <tt class="docutils literal">ExampleActor</tt>'s <tt class="docutils literal">onCommand</tt> command handler.</li>
+<li>The <tt class="docutils literal">onCommand</tt> command handler derives an <tt class="docutils literal">Appended</tt> event and <tt class="docutils literal">persist</tt>s it to the <tt class="docutils literal">eventLog</tt> pointed to by the <tt class="docutils literal">ActorRef</tt> it was passed when it was created.</li>
+<li>If persistence succeeds, the sender of the command is informed about successful processing.</li>
+</ol>
+</blockquote>
+<div class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 57)</p>
+Block quote ends without a blank line; unexpected unindent.</div>
+<dl class="docutils">
+<dt>If persistence fails, the command sender is informed about the failure so it can retry, if needed.</dt>
+<dd><ol class="first last arabic simple" start="4">
+<li>The <tt class="docutils literal">ExampleActor</tt>'s <tt class="docutils literal">onEvent</tt> handler is automatically called after a successful <tt class="docutils literal">persist</tt>.</li>
+<li>The <tt class="docutils literal">onEvent</tt> handler updates <tt class="docutils literal">currentState</tt>.</li>
+</ol>
+</dd>
+</dl>
+<p>During normal application startup or if the actor is re-started, persisted events are replayed to the <tt class="docutils literal">onEvent</tt> handler,
+which recovers internal state. Only then are new commands processed.</p>
+<p><tt class="docutils literal"><span class="pre">EventsourcedActor``s</span> that need to persist new events within the ``onEvent</tt> handler should mixin the
+<tt class="docutils literal">PersistOnEvent_</tt> trait and invoke <tt class="docutils literal">persistOnEventMethod_</tt>.</p>
+<p><tt class="docutils literal">EventsourcedActor</tt> implementations must define a global unique <tt class="docutils literal">id</tt> and require an <tt class="docutils literal">eventLog</tt> actor reference for writing and replaying events.
+An event-sourced actor may also define an optional <tt class="docutils literal">aggregateId</tt> which has an impact how events are routed between event-sourced actors.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p>Section <a href="#id10"><span class="problematic" id="id11">:ref:`event-log`</span></a> explains how to create <tt class="docutils literal">eventLog</tt> actor references.</p>
+<div class="last system-message" id="id10">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 71); <em><a href="#id11">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</div>
+<div class="section" id="creating-a-single-instance">
+<h2>Creating a single instance</h2>
+<p>In the following, a single instance of <tt class="docutils literal">ExampleActor</tt> is created and two <tt class="docutils literal">Append</tt> commands are sent to it:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 82)</p>
+<p>Unknown directive type &quot;tabbed-code&quot;.</p>
+<pre class="literal-block">
+.. tabbed-code::
+   .. includecode:: code/UserGuideDoc.scala
+      :snippet: create-one-instance
+   .. includecode:: code/userguide/japi/ActorExample.java
+      :snippet: create-one-instance
+
+</pre>
+</div>
+<p>Sending a <tt class="docutils literal">Print</tt> command</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 90)</p>
+<p>Unknown directive type &quot;tabbed-code&quot;.</p>
+<pre class="literal-block">
+.. tabbed-code::
+   .. includecode:: code/UserGuideDoc.scala
+      :snippet: print-one-instance
+   .. includecode:: code/userguide/japi/ActorExample.java
+      :snippet: print-one-instance
+
+</pre>
+</div>
+<p>should print:</p>
+<pre class="literal-block">
+[id = 1, aggregate id = a] a,b
+</pre>
+<p>When the application is re-started, persisted events are replayed to <tt class="docutils literal">onEvent</tt> which recovers <tt class="docutils literal">currentState</tt>. Sending another <tt class="docutils literal">Print</tt> command should print again:</p>
+<pre class="literal-block">
+[id = 1, aggregate id = a] a,b
+</pre>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>In the following sections, several instances of <tt class="docutils literal">ExampleActor</tt> are created. It is assumed that they share a <a href="#id12"><span class="problematic" id="id13">:ref:`replicated-event-log`</span></a> and are running at different <em>locations</em>.</p>
+<div class="system-message" id="id12">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 105); <em><a href="#id13">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p class="last">A shared event log is a pre-requisite for event-sourced actors to consume each other’s events. However, sharing an event log doesn’t necessarily mean broadcast communication between all actors on the same log. It is the <tt class="docutils literal">aggreagteId</tt> that determines which actors consume each other’s events.</p>
+</div>
+</div>
+<div class="section" id="creating-two-isolated-instances">
+<h2>Creating two isolated instances</h2>
+<p>When creating two instances of <tt class="docutils literal">ExampleActor</tt> with different <tt class="docutils literal">aggregateId</tt>s, they are isolated from each other, by default, and do not consume each other’s events:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 114)</p>
+<p>Unknown directive type &quot;tabbed-code&quot;.</p>
+<pre class="literal-block">
+.. tabbed-code::
+   .. includecode:: code/UserGuideDoc.scala
+      :snippet: create-two-instances
+   .. includecode:: code/userguide/japi/ActorExample.java
+      :snippet: create-two-instances
+
+</pre>
+</div>
+<p>Sending two <tt class="docutils literal">Print</tt> commands</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 122)</p>
+<p>Unknown directive type &quot;tabbed-code&quot;.</p>
+<pre class="literal-block">
+.. tabbed-code::
+   .. includecode:: code/UserGuideDoc.scala
+      :snippet: print-two-instances
+   .. includecode:: code/userguide/japi/ActorExample.java
+      :snippet: print-two-instances
+
+</pre>
+</div>
+<p>should print:</p>
+<pre class="literal-block">
+[id = 2, aggregate id = b] a,b
+[id = 3, aggregate id = c] x,y
+</pre>
+</div>
+<div class="section" id="creating-two-replica-instances">
+<h2>Creating two replica instances</h2>
+<p>When creating two <tt class="docutils literal">ExampleActor</tt> instances with the same <tt class="docutils literal">aggregateId</tt>, they consume each other’s events <a class="footnote-reference" href="#id40" id="id14">[1]</a>.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 138)</p>
+<p>Unknown directive type &quot;tabbed-code&quot;.</p>
+<pre class="literal-block">
+.. tabbed-code::
+   .. includecode:: code/UserGuideDoc.scala
+      :snippet: create-replica-instances
+   .. includecode:: code/userguide/japi/ActorExample.java
+      :snippet: create-replica-instances
+
+</pre>
+</div>
+<p>Here, <tt class="docutils literal">d4</tt> processes an <tt class="docutils literal">Append</tt> command and persists an <tt class="docutils literal">Appended</tt> event. Both, <tt class="docutils literal">d4</tt> and <tt class="docutils literal">d5</tt>, consume that event and update their internal state. After waiting a bit for convergence, sending a <tt class="docutils literal">Print</tt> command to both actors should print:</p>
+<pre class="literal-block">
+[id = 4, aggregate id = d] a
+[id = 5, aggregate id = d] a
+</pre>
+<p>After both replicas have converged, another <tt class="docutils literal">Append</tt> is sent to <tt class="docutils literal">d5</tt>.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 151)</p>
+<p>Unknown directive type &quot;tabbed-code&quot;.</p>
+<pre class="literal-block">
+.. tabbed-code::
+   .. includecode:: code/UserGuideDoc.scala
+      :snippet: send-another-append
+   .. includecode:: code/userguide/japi/ActorExample.java
+      :snippet: send-another-append
+
+</pre>
+</div>
+<p>Again both actors consume the event and sending another <tt class="docutils literal">Print</tt> command should print:</p>
+<pre class="literal-block">
+[id = 4, aggregate id = d] a,b
+[id = 5, aggregate id = d] a,b
+</pre>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>As you have probably recognized, replica convergence in this example can only be achieved if the second <tt class="docutils literal">Append</tt> command is sent after both actors have processed the <tt class="docutils literal">Appended</tt> event from the first <tt class="docutils literal">Append</tt> command.</p>
+<p>In other words, the first <tt class="docutils literal">Appended</tt> event must <em>happen before</em> the second one. Only in this case, these two events can have a causal relationship. Since events are guaranteed to be delivered in potential causal order to all replicas, they can converge to the same state.</p>
+<p class="last">When concurrent updates are made to both replicas, the corresponding <tt class="docutils literal">Appended</tt> events are not causally related and can be delivered in any order to both replicas. This may cause replicas to diverge because <em>append</em> operations do not commute. The following sections give examples how to detect and handle concurrent updates.</p>
+</div>
+</div>
+</div>
+<div class="section" id="detecting-concurrent-updates">
+<h1>Detecting concurrent updates</h1>
+<p>Eventuate tracks <em>happened-before</em> relationships (= potential causality) of events with <a href="#id15"><span class="problematic" id="id16">:ref:`vector-clocks`</span></a>. Why is that needed at all? Let’s assume that an event-sourced actor emits an event <tt class="docutils literal">e1</tt> for changing internal state and later receives an event <tt class="docutils literal">e2</tt> from a replica instance. If the replica instance emits <tt class="docutils literal">e2</tt> after having processed <tt class="docutils literal">e1</tt>, the actor can apply <tt class="docutils literal">e2</tt> as regular update. If the replica instance emits <tt class="docutils literal">e2</tt> before having received <tt class="docutils literal">e1</tt>, the actor receives a concurrent, potentially conflicting event.</p>
+<div class="system-message" id="id15">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 172); <em><a href="#id16">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p>How can the actor determine if <tt class="docutils literal">e2</tt> is a regular i.e. causally related or concurrent update? It can do so by comparing the vector timestamps of <tt class="docutils literal">e1</tt> and <tt class="docutils literal">e2</tt>, where <tt class="docutils literal">t1</tt> is the vector timestamp of <tt class="docutils literal">e1</tt> and <tt class="docutils literal">t2</tt> the vector timestamp of <tt class="docutils literal">e2</tt>. If events <tt class="docutils literal">e1</tt> and <tt class="docutils literal">e2</tt> are concurrent then <tt class="docutils literal">t1 conc t2</tt> evaluates to <tt class="docutils literal">true</tt>. Otherwise, they are causally related and <tt class="docutils literal">t1 &lt; t2</tt> evaluates to <tt class="docutils literal">true</tt> (because <tt class="docutils literal">e1</tt> <em>happened-before</em> <tt class="docutils literal">e2</tt>).</p>
+<p>The vector timestamp of an event can be obtained with <tt class="docutils literal">lastVectorTimestamp</tt> during event processing. Vector timestamps can be attached as <em>update timestamp</em> to current state and compared with the vector timestamp of a new event in order to determine whether the new event is causally related to the previous state update or not<a class="footnote-reference" href="#id41" id="id17">[2]</a>:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 178)</p>
+<p>Unknown directive type &quot;tabbed-code&quot;.</p>
+<pre class="literal-block">
+.. tabbed-code::
+   .. includecode:: code/UserGuideDoc.scala
+      :snippet: detecting-concurrent-update
+   .. includecode:: code/userguide/japi/ConcurrentExample.java
+      :snippet: detecting-concurrent-update
+
+</pre>
+</div>
+<p>Attaching update timestamps to current state and comparing them with vector timestamps of new events can be easily abstracted over so that applications don’t have to deal with these low level details, as shown in the next section.</p>
+</div>
+<div class="section" id="id18">
+<span id="tracking-conflicting-versions"></span><h1>Tracking conflicting versions</h1>
+<p>If state update operations from concurrent events do not commute, conflicting versions of actor state arise that must be tracked and resolved. This can be done with Eventuate’s <tt class="docutils literal">ConcurrentVersions[S, A]</tt> abstraction and an application-defined <em>update function</em> of type <tt class="docutils literal">(S, A) =&gt; S</tt> where <tt class="docutils literal">S</tt> is the type of actor state and <tt class="docutils literal">A</tt> the update type. In our example, the <tt class="docutils literal">ConcurrentVersions</tt> type is <tt class="docutils literal">ConcurrentVersions[Vector[String], String]</tt> and the update function <tt class="docutils literal">(s, a) =&gt; s :+ a</tt>:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 193)</p>
+<p>Unknown directive type &quot;tabbed-code&quot;.</p>
+<pre class="literal-block">
+.. tabbed-code::
+   .. includecode:: code/UserGuideDoc.scala
+      :snippet: tracking-conflicting-versions
+   .. includecode:: code/userguide/japi/TrackingExample.java
+      :snippet: tracking-conflicting-versions
+
+</pre>
+</div>
+<p>Internally, <tt class="docutils literal">ConcurrentVersions</tt> maintains versions of actor state in a tree structure where each concurrent <tt class="docutils literal">update</tt> creates a new branch. The shape of the tree is determined solely by the vector timestamps of the corresponding update events.</p>
+<p>An event’s vector timestamp is passed as <tt class="docutils literal">lastVectorTimestamp</tt> argument to <tt class="docutils literal">update</tt>. The <tt class="docutils literal">update</tt> method internally creates a new version by applying the update function <tt class="docutils literal">(s, a) =&gt; s :+ a</tt> to the closest predecessor version and the actual update value (<tt class="docutils literal">entry</tt>). The <tt class="docutils literal">lastVectorTimestamp</tt> is attached as update timestamp to the newly created version.</p>
+<p>Concurrent versions of actor state and their update timestamp can be obtained with <tt class="docutils literal">all</tt> which is a sequence of type <tt class="docutils literal"><span class="pre">Seq[Versioned[Vector[String]]]</span></tt> in our example. The <a class="reference external" href="latest/api/index.html#com.rbmhtechnology.eventuate.Versioned">Versioned</a> data type represents a particular version of actor state and its update timestamp (= <tt class="docutils literal">vectorTimestamp</tt> field).</p>
+<p>If <tt class="docutils literal">all</tt> contains only a single element, there is no conflict and the element represents the current, conflict-free actor state. If the sequence contains two or more elements, there is a conflict where the elements represent conflicting versions of actor states. They can be resolved either automatically or interactively.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Only concurrent updates to replicas with the same <tt class="docutils literal">aggregateId</tt> may conflict. Concurrent updates to actors with different <tt class="docutils literal">aggregateId</tt> do not conflict (unless an application does custom <a href="#id19"><span class="problematic" id="id20">:ref:`event-routing`</span></a>).</p>
+<div class="system-message" id="id19">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 208); <em><a href="#id20">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p>Also, if the data type of actor state is designed in a way that update operations commute, concurrent updates can be made conflict-free. This is discussed in section <a href="#id21"><span class="problematic" id="id22">:ref:`commutative-replicated-data-types`</span></a>.</p>
+<div class="last system-message" id="id21">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 210); <em><a href="#id22">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</div>
+</div>
+<div class="section" id="resolving-conflicting-versions">
+<h1>Resolving conflicting versions</h1>
+<div class="section" id="id23">
+<span id="automated-conflict-resolution"></span><h2>Automated conflict resolution</h2>
+<p>The following is a simple example of automated conflict resolution: if a conflict has been detected, the version with the higher wall clock timestamp is selected to be the winner. In case of equal wall clock timestamps, the version with the lower emitter id is selected. The wall clock timestamp can be obtained with <tt class="docutils literal">lastSystemTimestamp</tt> during event handling, the emitter id with <tt class="docutils literal">lastEmitterId</tt>. The emitter id is the <tt class="docutils literal">id</tt> of the <tt class="docutils literal">EventsourcedActor</tt> that emitted the event.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 222)</p>
+<p>Unknown directive type &quot;tabbed-code&quot;.</p>
+<pre class="literal-block">
+.. tabbed-code::
+   .. includecode:: code/UserGuideDoc.scala
+      :snippet: automated-conflict-resolution
+   .. includecode:: code/userguide/japi/ResolveExample.java
+      :snippet: automated-conflict-resolution
+
+</pre>
+</div>
+<p>Here, conflicting versions are sorted by descending wall clock timestamp and ascending emitter id where the latter is tracked as <tt class="docutils literal">creator</tt> of the version. The first version is selected to be the winner. Its vector timestamp is passed as argument to <tt class="docutils literal">resolve</tt> which selects this version and discards all other versions.</p>
+<p>More advanced conflict resolution could select a winner depending on the actual value of concurrent versions. After selection, an application could even update the winner with the <em>merged</em> value of all conflicting versions<a class="footnote-reference" href="#id42" id="id24">[3]</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For replicas to converge, it is important that winner selection does not depend on the order of conflicting events. In our example, this is the case because wall clock timestamp and emitter id comparison is transitive.</p>
+</div>
+</div>
+<div class="section" id="interactive-conflict-resolution">
+<h2>Interactive conflict resolution</h2>
+<p>Interactive conflict resolution does not resolve conflicts immediately but requests the user to inspect and resolve a conflict. The following is a very simple example of interactive conflict resolution: a user selects a winner version if conflicting versions of application state exist.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 240)</p>
+<p>Unknown directive type &quot;tabbed-code&quot;.</p>
+<pre class="literal-block">
+.. tabbed-code::
+   .. includecode:: code/UserGuideDoc.scala
+      :snippet: interactive-conflict-resolution
+   .. includecode:: code/userguide/japi/ResolveExample.java
+      :snippet: interactive-conflict-resolution
+
+</pre>
+</div>
+<p>When a user tries to <tt class="docutils literal">Append</tt> in presence of a conflict, the <tt class="docutils literal">ExampleActor</tt> rejects the update and requests the user to select a winner version from a sequence of conflicting versions. The user then sends the update timestamp of the winner version as <tt class="docutils literal">selectedTimestamp</tt> with a <tt class="docutils literal">Resolve</tt> command from which a <tt class="docutils literal">Resolved</tt> event is derived and persisted. Handling of <tt class="docutils literal">Resolved</tt> at all replicas finally resolves the conflict.</p>
+<p>In addition to just selecting a winner, an application could also update the winner version in a second step, for example, with a value derived from the merge result of conflicting versions. Support for <em>atomic</em>, interactive conflict resolution with an application-defined merge function is planned for later Eventuate releases.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Interactive conflict resolution requires agreement among replicas that are affected by a given conflict: only one of them may emit the <tt class="docutils literal">Resolved</tt> event. This does not necessarily mean distributed lock acquisition or leader (= resolver) election but can also rely on static rules such as <em>only the initial creator location of an aggregate is allowed to resolve the conflict</em><a class="footnote-reference" href="#id43" id="id25">[4]</a>. This rule is implemented in the <a href="#id26"><span class="problematic" id="id27">:ref:`example-application`</span></a>.</p>
+<div class="last system-message" id="id26">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 251); <em><a href="#id27">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</div>
+</div>
+</div>
+<div class="section" id="operation-based-crdts">
+<span id="commutative-replicated-data-types"></span><h1>Operation-based CRDTs</h1>
+<p>If state update operations commute, there’s no need to use Eventuate’s <tt class="docutils literal">ConcurrentVersions</tt> utility. A simple example is a replicated counter, which converges because its increment and decrement operations commute.</p>
+<p>A formal to approach to commutative replicated data types (CmRDTs) or operation-based CRDTs is given in the paper <a class="reference external" href="http://hal.upmc.fr/file/index/docid/555588/filename/techreport.pdf">A comprehensive study of Convergent and Commutative Replicated Data Types</a> by Marc Shapiro et al. Eventuate is a good basis for implementing operation-based CRDTs:</p>
+<ul>
+<li><p class="first">Update operations can be modeled as events and reliably broadcasted to all replicas by a <a href="#id28"><span class="problematic" id="id29">:ref:`replicated-event-log`</span></a>.</p>
+<div class="system-message" id="id28">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 262); <em><a href="#id29">backlink</a></em></p>
+<p>Unknown interpreted text role &quot;ref&quot;.</p>
+</div>
+</li>
+<li><p class="first">The command and event handler of an event-sourced actor can be used to implement the two update phases mentioned in the paper: <em>atSource</em> and <em>downstream</em>, respectively.</p>
+</li>
+<li><p class="first">All <em>downstream</em> preconditions mentioned in the paper are satisfied in case of causal delivery of update operations which is guaranteed for actors consuming from a replicated event log.</p>
+</li>
+</ul>
+<p>Eventuate currently implements 5 out of 12 operation-based CRDTs specified in the paper. These are <em>Counter</em>, <em>MV-Register</em>, <em>LWW-Register</em>, <em>OR-Set</em> and <em>OR-Cart</em> (a shopping cart CRDT). They can be instantiated and used via their corresponding <em>CRDT services</em>. CRDT operations are asynchronous methods on the service interfaces. CRDT services free applications from dealing with low-level details like event-sourced actors or command messages directly. The following is the definition of <a class="reference external" href="latest/api/index.html#com.rbmhtechnology.eventuate.crdt.ORSetService">ORSetService</a>:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 268)</p>
+<p>Unknown directive type &quot;tabbed-code&quot;.</p>
+<pre class="literal-block">
+.. tabbed-code::
+    .. includecode:: ../../eventuate-crdt/src/main/scala/com/rbmhtechnology/eventuate/crdt/ORSet.scala
+       :snippet: or-set-service
+    .. includecode:: code/userguide/japi/CrdtExample.java
+       :snippet: or-set-service
+
+</pre>
+</div>
+<p>The <a class="reference external" href="latest/api/index.html#com.rbmhtechnology.eventuate.crdt.ORSetService">ORSetService</a> is a CRDT service that manages <a class="reference external" href="latest/api/index.html#com.rbmhtechnology.eventuate.crdt.ORSet">ORSet</a> instances. It implements the asynchronous <tt class="docutils literal">add</tt> and <tt class="docutils literal">remove</tt> methods and inherits the <tt class="docutils literal">value(id: String): Future[Set[A]]</tt> method from <tt class="docutils literal">CRDTService[ORSet[A], Set[A]]</tt> for reading the current value. Their <tt class="docutils literal">id</tt> parameter identifies an <tt class="docutils literal">ORSet</tt> instance. Instances are automatically created by the service on demand. A usage example is the <a class="reference external" href="https://github.com/RBMHTechnology/eventuate/blob/master/src/multi-jvm/scala/com/rbmhtechnology/eventuate/crdt/ReplicatedORSetSpec.scala">ReplicatedOrSetSpec</a> that is based on Akka’s <a class="reference external" href="http://doc.akka.io/docs/akka/2.4/dev/multi-node-testing.html">multi node testkit</a>.</p>
+<p>A CRDT service also implements a <tt class="docutils literal">save(id: String): Future[SnapshotMetadata]</tt> method for saving CRDT snapshots. <a href="#id30"><span class="problematic" id="id31">:ref:`snapshots`</span></a> may reduce recovery times of CRDTs with a long update history but are not required for CRDT persistence.</p>
+<div class="system-message" id="id30">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 276); <em><a href="#id31">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<p>New operation-based CRDTs and their corresponding services can be developed with the CRDT development framework, by defining an instance of the <a class="reference external" href="latest/api/index.html#com.rbmhtechnology.eventuate.crdt.CRDTServiceOps">CRDTServiceOps</a> type class and implementing the <a class="reference external" href="latest/api/index.html#com.rbmhtechnology.eventuate.crdt.CRDTService">CRDTService</a> trait. Take a look at the <a class="reference external" href="https://github.com/RBMHTechnology/eventuate/tree/master/eventuate-crdt/src/main/scala/com/rbmhtechnology/eventuate/crdt">CRDT sources</a> for examples.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Eventuate’s CRDT approach is also described in <a class="reference external" href="http://krasserm.github.io/2016/10/19/operation-based-crdt-framework/">this article</a>.</p>
+</div>
+</div>
+<div class="section" id="event-sourced-views">
+<span id="guide-event-sourced-views"></span><h1>Event-sourced views</h1>
+<p>Event-sourced views are a functional subset of event-sourced actors. They can only consume events from an event log but cannot produce new events. Concrete event-sourced views must implement the <tt class="docutils literal">EventsourcedView</tt> trait. In the following example, the view counts all <tt class="docutils literal">Appended</tt> and <tt class="docutils literal">Resolved</tt> events emitted by all event-sourced actors to the same <tt class="docutils literal">eventLog</tt>:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 292)</p>
+<p>Unknown directive type &quot;tabbed-code&quot;.</p>
+<pre class="literal-block">
+.. tabbed-code::
+   .. includecode:: code/UserGuideDoc.scala
+      :snippet: event-sourced-view
+   .. includecode:: code/userguide/japi/ViewExample.java
+      :snippet: event-sourced-view
+
+</pre>
+</div>
+<p>Event-sourced views handle events in the same way as event-sourced actors by implementing an <tt class="docutils literal">onEvent</tt> handler. The <tt class="docutils literal">onCommand</tt> handler in the example processes the queries <tt class="docutils literal">GetAppendCount</tt> and <tt class="docutils literal">GetResolveCount</tt>.</p>
+<p><tt class="docutils literal">ExampleView</tt> implements the mandatory global unique <tt class="docutils literal">id</tt> but doesn’t define an <tt class="docutils literal">aggregateId</tt>. A view that doesn’t define an <tt class="docutils literal">aggregateId</tt> can consume events from all event-sourced actors on the same event log. If it defines an <tt class="docutils literal">aggregateId</tt> it can only consume events from event-sourced actors with the same <tt class="docutils literal">aggregateId</tt> (assuming the default <a href="#id32"><span class="problematic" id="id33">:ref:`event-routing`</span></a> rules).</p>
+<div class="system-message" id="id32">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 300); <em><a href="#id33">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p>While event-sourced views maintain view state in-memory, <a href="#id34"><span class="problematic" id="id35">:ref:`ref-event-sourced-writers`</span></a> can be used to persist view state to external databases. A specialization of event-sourced writers are <a href="#id36"><span class="problematic" id="id37">:ref:`ref-event-sourced-processors`</span></a> whose external database is an event log.</p>
+<div class="system-message" id="id34">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 303); <em><a href="#id35">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+<div class="last system-message" id="id36">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 303); <em><a href="#id37">backlink</a></em></p>
+Unknown interpreted text role &quot;ref&quot;.</div>
+</div>
+</div>
+<div class="section" id="id38">
+<span id="conditional-requests"></span><h1>Conditional requests</h1>
+<p>Causal read consistency is the default when reading state from a single event-sourced actor or view. The event stream received by that actor is always causally ordered, hence, it will never see an <em>effect</em> before having seen its <em>cause</em>.</p>
+<p>The situation is different when a client reads from multiple actors. Imagine two event-sourced actor replicas where a client updates one replica and observes the updated state with the reply. A subsequent from the other replica, made by the same client, may return the old state which violates causal consistency.</p>
+<p>Similar considerations can be made for reading from an event-sourced view after having made an update to an event-sourced actor. For example, an application that successfully appended an entry to <tt class="docutils literal">ExampleActor</tt> may not immediately see that update in the <tt class="docutils literal">appendCount</tt> of <tt class="docutils literal">ExampleView</tt>. To achieve causal read consistency, the view should delay command processing until the emitted event has been consumed by the view. This can be achieved with a <tt class="docutils literal">ConditionalRequest</tt>.</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 316)</p>
+<p>Unknown directive type &quot;tabbed-code&quot;.</p>
+<pre class="literal-block">
+.. tabbed-code::
+   .. includecode:: code/UserGuideDoc.scala
+      :snippet: conditional-requests
+   .. includecode:: code/userguide/japi/ConditionalExample.java
+      :snippet: conditional-requests
+
+</pre>
+</div>
+<p>Here, the <tt class="docutils literal">ExampleActor</tt> includes the event’s vector timestamp in its <tt class="docutils literal">AppendSuccess</tt> reply. Together with the actual <tt class="docutils literal">GetAppendCount</tt> command, the timestamp is included as condition in a <tt class="docutils literal">ConditionalRequest</tt> and sent to the view. For <tt class="docutils literal">ConditionalRequest</tt> processing, an event-sourced view must extend the <tt class="docutils literal">ConditionalRequests</tt> trait. <tt class="docutils literal">ConditionalRequests</tt> internally delays the command, if needed, and only dispatches <tt class="docutils literal">GetAppendCount</tt> to the view’s <tt class="docutils literal">onCommand</tt> handler if the condition timestamp is in the <em>causal past</em> of the view (which is earliest the case when the view consumed the update event). When running the example with an empty event log, it should print:</p>
+<pre class="literal-block">
+append count = 1
+</pre>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Not only event-sourced views but also event-sourced actors, stateful event-sourced writers and processors can extend <tt class="docutils literal">ConditionalRequests</tt>. Delaying conditional requests may re-order them relative to other conditional and non-conditional requests.</p>
+</div>
+</div>
+<div class="section" id="event-driven-communication">
+<span id="guide-event-driven-communication"></span><h1>Event-driven communication</h1>
+<p>Earlier sections have already shown one form of event collaboration: <em>state replication</em>. For that purpose, event-sourced actors of the same type exchange their events to re-construct actor state at different locations.</p>
+<p>In more general cases, event-sourced actors of different type exchange events to achieve a common goal. They react on received events by updating internal state and producing new events. This form of event collaboration is called <em>event-driven communication</em>. In the following example, two event-actors collaborate in a ping-pong game where</p>
+<ul class="simple">
+<li>a <tt class="docutils literal">PingActor</tt> emits a <tt class="docutils literal">Ping</tt> event on receiving a <tt class="docutils literal">Pong</tt> event and</li>
+<li>a <tt class="docutils literal">PongActor</tt> emits a <tt class="docutils literal">Pong</tt> event on receiving a <tt class="docutils literal">Ping</tt> event</li>
+</ul>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 341)</p>
+<p>Unknown directive type &quot;tabbed-code&quot;.</p>
+<pre class="literal-block">
+.. tabbed-code::
+   .. includecode:: code/UserGuideDoc.scala
+      :snippet: event-driven-communication
+   .. includecode:: code/userguide/japi/CommunicationExample.java
+      :snippet: event-driven-communication
+
+</pre>
+</div>
+<p>The ping-pong game is started by sending the <tt class="docutils literal">PingActor</tt> a <tt class="docutils literal">”serve”</tt> command which <tt class="docutils literal">persist</tt>s the first <tt class="docutils literal">Ping</tt> event. This event however is not consumed by the emitter but rather by the <tt class="docutils literal">PongActor</tt>. The <tt class="docutils literal">PongActor</tt> reacts on the <tt class="docutils literal">Ping</tt> event by emitting a <tt class="docutils literal">Pong</tt> event. Other than in previous examples, the event is not emitted in the actor’s <tt class="docutils literal">onCommand</tt> handler but in the <tt class="docutils literal">onEvent</tt> handler. For that purpose, the actor has to mixin the <tt class="docutils literal">PersistOnEvent</tt> trait and use the <tt class="docutils literal">persistOnEvent</tt> method. The emitted <tt class="docutils literal">Pong</tt> too isn’t consumed by its emitter but rather by the <tt class="docutils literal">PingActor</tt>, emitting another <tt class="docutils literal">Ping</tt>, and so on. The game ends when the <tt class="docutils literal">PingActor</tt> received the 10th <tt class="docutils literal">Pong</tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The ping-pong game is <strong>reliable</strong>. When an actor crashes and is re-started, the game is reliably resumed from where it was interrupted. The <tt class="docutils literal">persistOnEvent</tt> method is idempotent i.e. no duplicates are written under failure conditions and later event replay. When deployed at different location, the ping-pong actors are also <strong>partition-tolerant</strong>. When their game is interrupted by a network partition, it is automatically resumed when the partition heals.</p>
+<p class="last">Furthermore, the actors don’t need to care about idempotency in their business logic i.e. they can assume to receive a <strong>de-duplicated</strong> and <strong>causally-ordered</strong> event stream in their <tt class="docutils literal">onEvent</tt> handler. This is a significant advantage over at-least-once delivery based communication with <a class="reference external" href="latest/api/index.html#com.rbmhtechnology.eventuate.ConfirmedDelivery">ConfirmedDelivery</a>, for example, which can lead to duplicates and message re-ordering.</p>
+</div>
+<p>In a more real-world example, there would be several actors of different type collaborating to achieve a common goal, for example, in a distributed business process. These actors can be considered as event-driven and event-sourced <em>microservices</em>, collaborating on a causally ordered event stream in a reliable and partition-tolerant way. Furthermore, when partitioned, they remain available for local writes and automatically catch up with their collaborators when the partition heals.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Further <tt class="docutils literal">persistOnEvent</tt> details are described in the <a href="#id44"><span class="problematic" id="id45">PersistOnEvent_</span></a> API docs.</p>
+</div>
+<div class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 375); <em><a href="#id39">backlink</a></em></p>
+Duplicate explicit target name: &quot;persistonevent&quot;.</div>
+<table class="docutils footnote" frame="void" id="id40" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id14">[1]</a></td><td><tt class="docutils literal">EventsourcedActor</tt>s and <tt class="docutils literal">EventsourcedView</tt>s that have an undefined <tt class="docutils literal">aggregateId</tt> can consume events from all other actors on the same event log.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id41" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id17">[2]</a></td><td>Attached update timestamps are not version vectors because Eventuate uses <a class="reference external" href="http://en.wikipedia.org/wiki/Vector_clock">vector clock update rules</a> instead of <a class="reference external" href="http://en.wikipedia.org/wiki/Version_vector">version vector update rules</a>. Consequently, update timestamp equivalence cannot be used as criterion for replica convergence.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id42" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id24">[3]</a></td><td>A formal approach to automatically <em>merge</em> concurrent versions of application state are convergent replicated data types (CvRDTs) or state-based CRDTs.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id43" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id25">[4]</a></td><td>Distributed lock acquisition or leader election require an external coordination service like <a class="reference external" href="http://zookeeper.apache.org/">ZooKeeper</a>, for example, whereas static rules do not.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="system-messages section">
+<h1>Docutils System Messages</h1>
+<div class="system-message" id="id44">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">C:/work/experiments/eventuate/eventuateEventSourcedActors/src/sphinx/user-guide.rst</tt>, line 357); <em><a href="#id45">backlink</a></em></p>
+Duplicate target name, cannot be used as a unique reference: &quot;persistonevent&quot;.</div>
+</div>
+</div>
+</body>
+</html>

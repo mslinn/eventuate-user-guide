@@ -16,7 +16,7 @@
 
 package doc
 
-object EventsourcedActors extends App {
+object ActorExample extends App {
   //#event-sourced-actor
   import akka.actor._
   import com.rbmhtechnology.eventuate.EventsourcedActor
@@ -67,6 +67,7 @@ object EventsourcedActors extends App {
 
   //#create-one-instance
   // Wrap a new instance of a `LeveldbEventLog` configuration object with log id "qt-1" into an Actor
+  // This will create a directory called `target/log-qt-1/` to contain the log files
   val eventLog: ActorRef = system.actorOf(LeveldbEventLog.props("qt-1"))
   //#
 
