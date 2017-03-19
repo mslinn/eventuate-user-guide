@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 - 2017 Red Bull Media House GmbH <http://www.redbullmediahouse.com> - all rights reserved.
+ * Copyright 2015 - 2017 Red Bull Media House GmbH <http://www.redbullmediahouse.com> and Mike Slinn - all rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package doc
 
-class ResolveExample {
+object ResolveExample extends App {
   import akka.actor._
 
   case object Print
@@ -25,38 +25,36 @@ class ResolveExample {
   case class AppendFailure(cause: Throwable)
   case class Appended(entry: String)
 
-  {
-    import com.rbmhtechnology.eventuate._
+  import com.rbmhtechnology.eventuate._
 
-    //#automated-conflict-resolution
-    class ExampleActor(
-      override val id: String,
-      override val aggregateId: Option[String],
-      override val eventLog: ActorRef
-    ) extends EventsourcedActor {
-      private var versionedState: ConcurrentVersions[Vector[String], String] =
-        ConcurrentVersions(Vector.empty, (s, a) => s :+ a)
+  //#automated-conflict-resolution
+  class ExampleActor(
+    override val id: String,
+    override val aggregateId: Option[String],
+    override val eventLog: ActorRef
+  ) extends EventsourcedActor {
+    private var versionedState: ConcurrentVersions[Vector[String], String] =
+      ConcurrentVersions(Vector.empty, (s, a) => s :+ a)
 
-      override def onCommand: PartialFunction[Any, Unit] = {
-        // ...
-    //#
-        case _ =>
-    //#automated-conflict-resolution
-      }
-
-      override def onEvent: PartialFunction[Any, Unit] = {
-        case Appended(entry) =>
-          versionedState = versionedState.update(entry, lastVectorTimestamp, lastSystemTimestamp, lastEmitterId)
-          if (versionedState.conflict) {
-            val conflictingVersions = versionedState.all.sortWith { (v1, v2) =>
-              if (v1.systemTimestamp == v2.systemTimestamp) v1.creator < v2.creator
-              else v1.systemTimestamp > v2.systemTimestamp
-            }
-            val winnerTimestamp: VectorTime = conflictingVersions.head.vectorTimestamp
-            versionedState = versionedState.resolve(winnerTimestamp)
-          }
-      }
+    override def onCommand: PartialFunction[Any, Unit] = {
+      // ...
+  //#
+      case _ =>
+  //#automated-conflict-resolution
     }
-    //#
+
+    override def onEvent: PartialFunction[Any, Unit] = {
+      case Appended(entry) =>
+        versionedState = versionedState.update(entry, lastVectorTimestamp, lastSystemTimestamp, lastEmitterId)
+        if (versionedState.conflict) {
+          val conflictingVersions = versionedState.all.sortWith { (v1, v2) =>
+            if (v1.systemTimestamp == v2.systemTimestamp) v1.creator < v2.creator
+            else v1.systemTimestamp > v2.systemTimestamp
+          }
+          val winnerTimestamp: VectorTime = conflictingVersions.head.vectorTimestamp
+          versionedState = versionedState.resolve(winnerTimestamp)
+        }
+    }
   }
+  //#
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 - 2017 Red Bull Media House GmbH <http://www.redbullmediahouse.com> - all rights reserved.
+ * Copyright 2015 - 2017 Red Bull Media House GmbH <http://www.redbullmediahouse.com> and Mike Slinn - all rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,14 @@
 
 package doc
 
-/** Not used by any app. Why is it here? */
-object EventCommunication {
+import com.rbmhtechnology.eventuate.ReplicationConnection.DefaultRemoteSystemName
+import com.rbmhtechnology.eventuate.log.leveldb.LeveldbEventLog
+
+object CommunicationExample extends App {
   import akka.actor._
 
-  var system: ActorSystem = _
-  var eventLog: ActorRef = _
+  var system: ActorSystem = ActorSystem(DefaultRemoteSystemName)
+  var eventLog: ActorRef = system.actorOf(LeveldbEventLog.props("qt-1"))
 
   //#event-driven-communication
   // some imports omitted ...

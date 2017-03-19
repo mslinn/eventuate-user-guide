@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 - 2017 Red Bull Media House GmbH <http://www.redbullmediahouse.com> - all rights reserved.
+ * Copyright 2015 - 2017 Red Bull Media House GmbH <http://www.redbullmediahouse.com> and Mike Slinn - all rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,34 +16,30 @@
 
 package doc
 
-object ConditionalExample extends App with ConditionalRequestsLike {
-  Util.pauseThenStop()
-}
-
-trait ConditionalRequestsLike {
+object ConditionalExample extends App {
   import akka.actor._
   import com.rbmhtechnology.eventuate.ReplicationConnection
   import com.rbmhtechnology.eventuate.log.leveldb.LeveldbEventLog
-  import doc.EventsourcedViews._
 
   implicit val system: ActorSystem = ActorSystem(ReplicationConnection.DefaultRemoteSystemName)
   // This will create a directory called `target/log-qt-2/` to contain the log files
   val eventLog: ActorRef = system.actorOf(LeveldbEventLog.props("qt-2"))
 
   //#conditional-requests
-  import akka.actor._
   import akka.pattern.ask
   import akka.util.Timeout
   import com.rbmhtechnology.eventuate._
+  import doc.EventsourcedViews._
   import scala.concurrent.duration._
   import scala.util._
 
   case class Append(entry: String)
   case class AppendSuccess(entry: String, updateTimestamp: VectorTime)
 
-  class ExampleActor(override val id: String,
-                     override val eventLog: ActorRef) extends EventsourcedActor {
-
+  class ExampleActor(
+    override val id: String,
+    override val eventLog: ActorRef
+  ) extends EventsourcedActor {
     private var currentState: Vector[String] = Vector.empty
     override val aggregateId = Some(id)
 
@@ -92,4 +88,6 @@ trait ConditionalRequestsLike {
     GetAppendCountReply(count)  <- ev ? ConditionalRequest(timestamp, GetAppendCount)
   } println(s"append count = $count")
   //#
+
+  Util.pauseThenStop()
 }
