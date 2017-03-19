@@ -15,6 +15,9 @@
  */
 
 //#event-driven-communication
+
+package japi;
+
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;

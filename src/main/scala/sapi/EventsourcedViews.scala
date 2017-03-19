@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package sapi
+
 /** Used by [[ConditionalExample]] */
 object EventsourcedViews {
   //#event-sourced-view

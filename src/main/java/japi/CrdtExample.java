@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package japi;
+
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 

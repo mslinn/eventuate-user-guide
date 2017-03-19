@@ -14,24 +14,20 @@
  * limitations under the License.
  */
 
-object InteractiveResolveExample extends App {
+package sapi
+
+object ResolveExample extends App {
   import akka.actor._
-  import scala.util._
-  import com.rbmhtechnology.eventuate._
-  import scala.collection.immutable.Seq
 
   case object Print
+  case class Append(entry: String)
   case class AppendSuccess(entry: String)
   case class AppendFailure(cause: Throwable)
   case class Appended(entry: String)
 
-  //#interactive-conflict-resolution
-  case class Append(entry: String)
-  case class AppendRejected(entry: String, conflictingVersions: Seq[Versioned[Vector[String]]])
+  import com.rbmhtechnology.eventuate._
 
-  case class Resolve(selectedTimestamp: VectorTime)
-  case class Resolved(selectedTimestamp: VectorTime)
-
+  //#automated-conflict-resolution
   class ExampleActor(
     override val id: String,
     override val aggregateId: Option[String],
@@ -41,25 +37,23 @@ object InteractiveResolveExample extends App {
       ConcurrentVersions(Vector.empty, (s, a) => s :+ a)
 
     override def onCommand: PartialFunction[Any, Unit] = {
-      case Append(entry) if versionedState.conflict =>
-        sender() ! AppendRejected(entry, versionedState.all)
-
-      case Append(entry) =>
-        // ...
-
-      case Resolve(selectedTimestamp) => persist(Resolved(selectedTimestamp)) {
-        case Success(evt) => // reply to sender omitted ...
-        case Failure(err) => // reply to sender omitted ...
-      }
+      // ...
+  //#
+      case _ =>
+  //#automated-conflict-resolution
     }
 
     override def onEvent: PartialFunction[Any, Unit] = {
       case Appended(entry) =>
-        versionedState = versionedState
-          .update(entry, lastVectorTimestamp, lastSystemTimestamp, lastEmitterId)
-
-      case Resolved(selectedTimestamp) =>
-        versionedState = versionedState.resolve(selectedTimestamp, lastVectorTimestamp)
+        versionedState = versionedState.update(entry, lastVectorTimestamp, lastSystemTimestamp, lastEmitterId)
+        if (versionedState.conflict) {
+          val conflictingVersions = versionedState.all.sortWith { (v1, v2) =>
+            if (v1.systemTimestamp == v2.systemTimestamp) v1.creator < v2.creator
+            else v1.systemTimestamp > v2.systemTimestamp
+          }
+          val winnerTimestamp: VectorTime = conflictingVersions.head.vectorTimestamp
+          versionedState = versionedState.resolve(winnerTimestamp)
+        }
     }
   }
   //#

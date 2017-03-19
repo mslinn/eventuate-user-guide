@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package sapi
+
 import com.rbmhtechnology.eventuate.ReplicationConnection.DefaultRemoteSystemName
 import com.rbmhtechnology.eventuate.log.leveldb.LeveldbEventLog
 

@@ -16,6 +16,8 @@
 
 //#automated-conflict-resolution
 
+package japi;
+
 import akka.actor.ActorRef;
 import akka.japi.pf.ReceiveBuilder;
 import com.rbmhtechnology.eventuate.*;
@@ -24,7 +26,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Stream;
 
-import static userguide.japi.DocUtils.append;
+import static japi.DocUtils.append;
 
 //#
 
@@ -37,7 +39,7 @@ public class ResolveExample {
     class ExampleActor extends AbstractEventsourcedActor {
 
       private ConcurrentVersions<Collection<String>, String> versionedState =
-        ConcurrentVersionsTree.create(Collections.emptyList(), (s, a) -> append(s, a));
+        ConcurrentVersionsTree.create(Collections.emptyList(), DocUtils::append);
 
       public ExampleActor(String id, ActorRef eventLog) {
         super(id, eventLog);

@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-object ActorExample extends App {
+package sapi
+
+object ActorExampleScala extends App {
   //#event-sourced-actor
   import akka.actor._
   import com.rbmhtechnology.eventuate.EventsourcedActor

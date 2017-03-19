@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-import static userguide.japi.DocUtils.append;
-import userguide.japi.ViewExample.GetAppendCountReply;
+package japi;
+
+import static japi.DocUtils.append;
+import japi.ViewExample.GetAppendCountReply;
 
 //#conditional-requests
 import akka.actor.ActorRef;

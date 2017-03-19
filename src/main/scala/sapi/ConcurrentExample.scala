@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package sapi
+
 /** Referenced `TrackingExample`. */
 object ConcurrentExample extends App {
   case object Print

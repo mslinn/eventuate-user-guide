@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-import static userguide.japi.DocUtils.append;
+package japi;
+
+import static japi.DocUtils.append;
 
 //#detecting-concurrent-update
 import akka.actor.ActorRef;
@@ -24,8 +26,8 @@ import com.rbmhtechnology.eventuate.VectorTime;
 
 import java.util.Collection;
 import java.util.Collections;
-//#
 
+//#
 public class ConcurrentExample {
 
   //#detecting-concurrent-update

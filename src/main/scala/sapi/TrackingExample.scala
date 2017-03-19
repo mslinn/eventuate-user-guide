@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-object ResolveExample extends App {
+package sapi
+
+object TrackingExample extends App {
   import akka.actor._
 
   case object Print
@@ -23,34 +25,34 @@ object ResolveExample extends App {
   case class AppendFailure(cause: Throwable)
   case class Appended(entry: String)
 
-  import com.rbmhtechnology.eventuate._
+  //#tracking-conflicting-versions
+  import com.rbmhtechnology.eventuate.{ConcurrentVersions, EventsourcedActor, Versioned}
+  import scala.collection.immutable.Seq
 
-  //#automated-conflict-resolution
   class ExampleActor(
-    override val id: String,
-    override val aggregateId: Option[String],
-    override val eventLog: ActorRef
-  ) extends EventsourcedActor {
-    private var versionedState: ConcurrentVersions[Vector[String], String] =
+      override val id: String,
+      override val aggregateId: Option[String],
+      override val eventLog: ActorRef
+    ) extends EventsourcedActor {
+    private var versionedState: ConcurrentVersions[Vector[String], String] = // different
       ConcurrentVersions(Vector.empty, (s, a) => s :+ a)
 
     override def onCommand: PartialFunction[Any, Unit] = {
       // ...
   //#
       case _ =>
-  //#automated-conflict-resolution
+  //#tracking-conflicting-versions
     }
 
     override def onEvent: PartialFunction[Any, Unit] = {
       case Appended(entry) =>
-        versionedState = versionedState.update(entry, lastVectorTimestamp, lastSystemTimestamp, lastEmitterId)
+        versionedState = versionedState.update(entry, lastVectorTimestamp)
         if (versionedState.conflict) {
-          val conflictingVersions = versionedState.all.sortWith { (v1, v2) =>
-            if (v1.systemTimestamp == v2.systemTimestamp) v1.creator < v2.creator
-            else v1.systemTimestamp > v2.systemTimestamp
-          }
-          val winnerTimestamp: VectorTime = conflictingVersions.head.vectorTimestamp
-          versionedState = versionedState.resolve(winnerTimestamp)
+          val conflictingVersions: Seq[Versioned[Vector[String]]] = versionedState.all
+          // TODO: resolve conflicting versions
+        } else {
+          val currentState: Vector[String] = versionedState.all.head.value
+          // ...
         }
     }
   }

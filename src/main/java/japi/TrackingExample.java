@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-import static userguide.japi.DocUtils.append;
+package japi;
+
+import static japi.DocUtils.append;
 
 //#tracking-conflicting-versions
 
@@ -33,7 +35,7 @@ public class TrackingExample {
   class ExampleActor extends AbstractEventsourcedActor {
 
     private ConcurrentVersions<Collection<String>, String> versionedState =
-      ConcurrentVersionsTree.create(Collections.emptyList(), (s, a) -> append(s, a));
+      ConcurrentVersionsTree.create(Collections.emptyList(), DocUtils::append);
 
     public ExampleActor(String id, ActorRef eventLog) {
       super(id, eventLog);

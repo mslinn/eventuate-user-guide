@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package sapi
+
 object ConditionalExample extends App {
   import akka.actor._
   import com.rbmhtechnology.eventuate.ReplicationConnection
@@ -27,11 +29,12 @@ object ConditionalExample extends App {
   import akka.pattern.ask
   import akka.util.Timeout
   import com.rbmhtechnology.eventuate._
-  import doc.EventsourcedViews._
+  import EventsourcedViews._
   import scala.concurrent.duration._
   import scala.util._
 
   case class Append(entry: String)
+  case class Appended(entry: String)
   case class AppendSuccess(entry: String, updateTimestamp: VectorTime)
 
   class ExampleActor(

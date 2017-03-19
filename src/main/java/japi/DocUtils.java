@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 - 2017 Red Bull Media House GmbH <http://www.redbullmediahouse.com> and Mike Slinn - all rights reserved.
+ * Copyright 2015 - 2016 Red Bull Media House GmbH <http://www.redbullmediahouse.com> - all rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-import akka.actor.ActorSystem
+package japi;
 
-object Util {
-  // Pause for messages to be displayed before shutting down Akka
-  def pauseThenStop(seconds: Int = 1)(implicit system: ActorSystem): Unit = {
-    import scala.concurrent.duration._
-    import system.dispatcher
-    import scala.language.postfixOps
-    system.scheduler.scheduleOnce(seconds seconds) {
-      system.terminate()
-      ()
-    }
-    ()
+import java.util.Collection;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Stream.concat;
+import static java.util.stream.Stream.of;
+
+public final class DocUtils {
+
+  private DocUtils() {
+  }
+
+  public static <T> Collection<T> append(Collection<T> collection, T el) {
+    return concat(collection.stream(), of(el)).collect(toList());
   }
 }

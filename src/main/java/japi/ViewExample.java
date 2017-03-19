@@ -16,6 +16,8 @@
 
 //#event-sourced-view
 
+package japi;
+
 import akka.actor.ActorRef;
 import akka.japi.pf.ReceiveBuilder;
 import com.rbmhtechnology.eventuate.AbstractEventsourcedView;

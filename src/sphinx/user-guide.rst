@@ -44,7 +44,7 @@ Concrete event-sourced actors must implement the ``EventsourcedActor_`` trait, w
 The following ``ExampleActor`` encapsulates state ``currentState`` of type ``Vector[String]``, to which entries can be appended:
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/doc/ActorExample.scala
+   .. includecode:: ../main/scala/doc/ActorExampleScala.scala
       :snippet: event-sourced-actor
    .. includecode:: ../main/java/doc/ActorExample.java
       :snippet: event-sourced-actor
@@ -83,7 +83,7 @@ Creating a single instance
 In the following, a single instance of ``ExampleActor`` is created and two ``Append`` commands are sent to it:
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/doc/ActorExample.scala
+   .. includecode:: ../main/scala/doc/ActorExampleScala.scala
       :snippet: create-one-instance
    .. includecode:: ../main/java/doc/ActorExample.java
       :snippet: create-one-instance
@@ -91,7 +91,7 @@ In the following, a single instance of ``ExampleActor`` is created and two ``App
 Sending a ``Print`` command
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/doc/ActorExample.scala
+   .. includecode:: ../main/scala/doc/ActorExampleScala.scala
       :snippet: print-one-instance
    .. includecode:: ../main/java/doc/ActorExample.java
       :snippet: print-one-instance
@@ -120,7 +120,7 @@ When creating two instances of ``ExampleActor`` with different ``aggregateId``\ 
 and do not consume each other’s events:
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/doc/ActorExample.scala
+   .. includecode:: ../main/scala/doc/ActorExampleScala.scala
       :snippet: create-two-instances
    .. includecode:: ../main/java/doc/ActorExample.java
       :snippet: create-two-instances
@@ -128,7 +128,7 @@ and do not consume each other’s events:
 Sending two ``Print`` commands
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/doc/ActorExample.scala
+   .. includecode:: ../main/scala/doc/ActorExampleScala.scala
       :snippet: print-two-instances
    .. includecode:: ../main/java/doc/ActorExample.java
       :snippet: print-two-instances
@@ -144,7 +144,7 @@ Creating two replica instances
 When creating two ``ExampleActor`` instances with the same ``aggregateId``, they consume each other’s events [#]_.
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/doc/ActorExample.scala
+   .. includecode:: ../main/scala/doc/ActorExampleScala.scala
       :snippet: create-replica-instances
    .. includecode:: ../main/java/doc/ActorExample.java
       :snippet: create-replica-instances
@@ -159,7 +159,7 @@ After waiting a bit for convergence, sending a ``Print`` command to both actors 
 After both replicas have converged, another ``Append`` is sent to ``d5``.
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/doc/ActorExample.scala
+   .. includecode:: ../main/scala/doc/ActorExampleScala.scala
       :snippet: send-another-append
    .. includecode:: ../main/java/doc/ActorExample.java
       :snippet: send-another-append
