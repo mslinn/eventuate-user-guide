@@ -32,11 +32,14 @@ Before working through this user guide you should:
 * Have SBT installed (`Mac <http://www.scala-sbt.org/0.13/docs/Installing-sbt-on-Mac.html>`_,
   `Windows <http://www.scala-sbt.org/0.13/docs/Installing-sbt-on-Windows.html>`_,
   `Linux <http://www.scala-sbt.org/0.13/docs/Installing-sbt-on-Linux.html>`_).
+* Understanding of how Akka ActorSystem and Actors works.
+  The `Akka documentation <http://akka.io/docs/>`_ is excellent.
 * To work through the Java examples, you should be familiar with `programming Java 8 <https://docs.oracle.com/javase/tutorial/>`_.
 * To work through the Scala examples, you should be familiar with programming Scala.
   The ultimate reference for Scala is `Programming in Scala <https://www.artima.com/shop/programming_in_scala>`_;
   this book takes most people weeks or months of dedicated reading to complete, and years to assimilate.
-  A faster and better way to learn is via `ScalaCourses.com <https://www.GetScala.com>`_.
+  A faster and better way to learn is via `ScalaCourses.com <https://www.GetScala.com>`_,
+  and their Intermediate Scala course also teaches what you need to know about Akka to work through this user guide.
 
 .. _guide-event-sourced-actors:
 

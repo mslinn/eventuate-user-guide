@@ -17,8 +17,6 @@
 package sapi
 
 object ActorExample extends App {
-  import com.rbmhtechnology.eventuate.ReplicationConnection
-
   //#event-sourced-actor
   import akka.actor._
   import com.rbmhtechnology.eventuate.EventsourcedActor
@@ -40,6 +38,7 @@ object ActorExample extends App {
     override val aggregateId: Option[String],
     override val eventLog: ActorRef
   ) extends EventsourcedActor {
+    // TODO this would be better as an ArrayBuffer
     private var currentState: Vector[String] = Vector.empty
 
     override def onCommand: PartialFunction[Any, Unit] = {
@@ -47,7 +46,7 @@ object ActorExample extends App {
         println(s"[id = $id, aggregate id = ${ aggregateId.getOrElse("<undefined>")}] ${ currentState.mkString(",") }")
 
       case Append(entry) => persist(Appended(entry)) {
-        case Success(_) => sender() ! AppendSuccess(entry)
+        case Success(_)   => sender() ! AppendSuccess(entry)
         case Failure(err) => sender() ! AppendFailure(err)
       }
     }
@@ -58,9 +57,8 @@ object ActorExample extends App {
   }
   //#
 
-  import com.rbmhtechnology.eventuate.log.leveldb.LeveldbEventLog
-
   //#create-one-instance
+  import com.rbmhtechnology.eventuate.log.leveldb.LeveldbEventLog
   import com.rbmhtechnology.eventuate.ReplicationConnection._
 
   // `DefaultRemoteSystemName` is defined as "location" in the

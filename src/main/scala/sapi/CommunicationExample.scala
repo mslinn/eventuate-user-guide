@@ -16,19 +16,17 @@
 
 package sapi
 
-import com.rbmhtechnology.eventuate.ReplicationConnection.DefaultRemoteSystemName
-import com.rbmhtechnology.eventuate.log.leveldb.LeveldbEventLog
 
 object CommunicationExample extends App {
-  import akka.actor._
-
-  var system: ActorSystem = ActorSystem(DefaultRemoteSystemName)
-  var eventLog: ActorRef = system.actorOf(LeveldbEventLog.props("qt-1"))
-
   //#event-driven-communication
-  // some imports omitted ...
-  import com.rbmhtechnology.eventuate.EventsourcedView.Handler
+  import akka.actor._
   import com.rbmhtechnology.eventuate.{EventsourcedActor, PersistOnEvent}
+  import com.rbmhtechnology.eventuate.EventsourcedView.Handler
+  import com.rbmhtechnology.eventuate.ReplicationConnection.DefaultRemoteSystemName
+  import com.rbmhtechnology.eventuate.log.leveldb.LeveldbEventLog
+
+  val system: ActorSystem = ActorSystem(DefaultRemoteSystemName)
+  val eventLog: ActorRef = system.actorOf(LeveldbEventLog.props("qt-1"))
 
   case class Ping(num: Int)
   case class Pong(num: Int)
@@ -46,8 +44,7 @@ object CommunicationExample extends App {
     }
   }
 
-  class PongActor(val id: String, val eventLog: ActorRef)
-    extends EventsourcedActor with PersistOnEvent {
+  class PongActor(val id: String, val eventLog: ActorRef) extends EventsourcedActor with PersistOnEvent {
 
     override def onCommand: PartialFunction[Any, Unit] = {
       case _ =>
