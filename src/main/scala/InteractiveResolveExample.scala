@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-package doc
-
 object InteractiveResolveExample extends App {
   import akka.actor._
   import scala.util._

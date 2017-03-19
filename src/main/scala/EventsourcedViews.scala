@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-package doc
-
 /** Used by [[ConditionalExample]] */
 object EventsourcedViews {
   //#event-sourced-view

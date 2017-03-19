@@ -14,42 +14,39 @@
  * limitations under the License.
  */
 
-package userguide.japi;
-
 import static userguide.japi.DocUtils.append;
 
-//#tracking-conflicting-versions
-
+//#detecting-concurrent-update
 import akka.actor.ActorRef;
 import akka.japi.pf.ReceiveBuilder;
-import com.rbmhtechnology.eventuate.*;
+import com.rbmhtechnology.eventuate.AbstractEventsourcedActor;
+import com.rbmhtechnology.eventuate.VectorTime;
 
 import java.util.Collection;
 import java.util.Collections;
 //#
 
-public class TrackingExample {
+public class ConcurrentExample {
 
-  //#tracking-conflicting-versions
+  //#detecting-concurrent-update
 
   class ExampleActor extends AbstractEventsourcedActor {
 
-    private ConcurrentVersions<Collection<String>, String> versionedState =
-      ConcurrentVersionsTree.create(Collections.emptyList(), (s, a) -> append(s, a));
+    private Collection<String> currentState = Collections.emptyList();
+    private VectorTime updateTimestamp = VectorTime.Zero();
 
     public ExampleActor(String id, ActorRef eventLog) {
       super(id, eventLog);
 
       setOnEvent(ReceiveBuilder
         .match(Appended.class, evt -> {
-          versionedState = versionedState.update(evt.entry, lastVectorTimestamp(), lastSystemTimestamp(), lastEmitterId());
-
-          if (versionedState.conflict()) {
-            final Collection<Versioned<Collection<String>>> all = versionedState.getAll();
-            // TODO: resolve conflicting versions
-          } else {
-            final Collection<String> currentState = versionedState.getAll().get(0).value();
-            // ...
+          if (updateTimestamp.lt(lastVectorTimestamp())) {
+            // regular update
+            currentState = append(currentState, evt.entry);
+            updateTimestamp = lastVectorTimestamp();
+          } else if (updateTimestamp.conc(lastVectorTimestamp())) {
+            // concurrent update
+            // TODO: track conflicting versions
           }
         })
         .build());

@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-package userguide.japi;
-
 //#automated-conflict-resolution
 
 import akka.actor.ActorRef;

@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-package doc
-
 object ConditionalExample extends App {
   import akka.actor._
   import com.rbmhtechnology.eventuate.ReplicationConnection

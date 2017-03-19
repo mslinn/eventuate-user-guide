@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-package userguide.japi;
-
 //#event-sourced-actor
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;

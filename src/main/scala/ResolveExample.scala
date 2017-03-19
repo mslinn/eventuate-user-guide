@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-package doc
-
 object ResolveExample extends App {
   import akka.actor._
 

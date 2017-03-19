@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-package userguide.japi;
-
 //#event-driven-communication
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;

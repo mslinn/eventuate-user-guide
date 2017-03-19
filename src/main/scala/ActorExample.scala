@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-package doc
-
 object ActorExample extends App {
   //#event-sourced-actor
   import akka.actor._

@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-package userguide.japi;
-
 //#event-sourced-view
 
 import akka.actor.ActorRef;

@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-package userguide.japi;
-
 import static userguide.japi.DocUtils.append;
 import userguide.japi.ViewExample.GetAppendCountReply;
 

@@ -14,47 +14,42 @@
  * limitations under the License.
  */
 
-package doc
-
-object TrackingExample extends App {
-  import akka.actor._
-
+/** Referenced `TrackingExample`. */
+object ConcurrentExample extends App {
   case object Print
   case class Append(entry: String)
   case class AppendSuccess(entry: String)
   case class AppendFailure(cause: Throwable)
   case class Appended(entry: String)
 
-  //#tracking-conflicting-versions
-  import com.rbmhtechnology.eventuate.{ConcurrentVersions, EventsourcedActor, Versioned}
-  import scala.collection.immutable.Seq
+  //#detecting-concurrent-update
+  import akka.actor._
+  import com.rbmhtechnology.eventuate.{EventsourcedActor, VectorTime}
 
   class ExampleActor(
-      override val id: String,
-      override val aggregateId: Option[String],
-      override val eventLog: ActorRef
-    ) extends EventsourcedActor {
-    private var versionedState: ConcurrentVersions[Vector[String], String] = // different
-      ConcurrentVersions(Vector.empty, (s, a) => s :+ a)
+    override val id: String,
+    override val aggregateId: Option[String],
+    override val eventLog: ActorRef
+  ) extends EventsourcedActor {
+    private var currentState: Vector[String] = Vector.empty
+    private var updateTimestamp: VectorTime = VectorTime() // this is new
 
     override def onCommand: PartialFunction[Any, Unit] = {
       // ...
   //#
       case _ =>
-  //#tracking-conflicting-versions
     }
+  //#detecting-concurrent-update
 
     override def onEvent: PartialFunction[Any, Unit] = {
-      case Appended(entry) =>
-        versionedState = versionedState.update(entry, lastVectorTimestamp)
-        if (versionedState.conflict) {
-          val conflictingVersions: Seq[Versioned[Vector[String]]] = versionedState.all
-          // TODO: resolve conflicting versions
-        } else {
-          val currentState: Vector[String] = versionedState.all.head.value
-          // ...
+      case Appended(entry2) =>
+        if (updateTimestamp < lastVectorTimestamp) { // regular update
+          currentState = currentState :+ entry2
+          updateTimestamp = lastVectorTimestamp
+        } else if (updateTimestamp conc lastVectorTimestamp) { // concurrent update
+          // TODO: track conflicting versions
         }
     }
+    //#
   }
-  //#
 }
