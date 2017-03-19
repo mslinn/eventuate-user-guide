@@ -28,8 +28,8 @@ import java.util.Collection;
 import java.util.Collections;
 //#
 
+// TODO turn this into a runnable example
 public class TrackingExample {
-
   //#tracking-conflicting-versions
 
   class ExampleActor extends AbstractEventsourcedActor {

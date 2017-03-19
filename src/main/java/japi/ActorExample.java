@@ -76,8 +76,7 @@ class ExampleActor extends AbstractEventsourcedActor {
 }
 
 // Commands
-class Print {
-}
+class Print {}
 
 class Append {
   public final String entry;
@@ -115,8 +114,7 @@ class Appended {
 //#
 
 public class ActorExample {
-
-  public static void main() throws InterruptedException {
+  public static void main(String[] args) throws InterruptedException {
 
     //#create-one-instance
     final ActorSystem system = // ...

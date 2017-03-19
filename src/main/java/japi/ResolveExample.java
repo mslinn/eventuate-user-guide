@@ -28,12 +28,12 @@ import java.util.stream.Stream;
 
 import static japi.DocUtils.append;
 
+// TODO turn this into a runnable example
+
 //#
 
 public class ResolveExample {
-
   public static class Auto {
-
     //#automated-conflict-resolution
 
     class ExampleActor extends AbstractEventsourcedActor {
@@ -68,7 +68,6 @@ public class ResolveExample {
   }
 
   public static class Interactive {
-
     //#interactive-conflict-resolution
 
     class ExampleActor extends AbstractEventsourcedActor {

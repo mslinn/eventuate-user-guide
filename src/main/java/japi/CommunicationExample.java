@@ -28,11 +28,9 @@ import static akka.actor.ActorRef.noSender;
 //#
 
 public class CommunicationExample {
-
   //#event-driven-communication
 
   class PingActor extends AbstractEventsourcedActor {
-
     public PingActor(String id, ActorRef eventLog, ActorRef completion) {
       super(id, eventLog);
 
@@ -48,7 +46,6 @@ public class CommunicationExample {
   }
 
   class PongActor extends AbstractEventsourcedActor {
-
     public PongActor(String id, ActorRef eventLog) {
       super(id, eventLog);
 
@@ -75,14 +72,15 @@ public class CommunicationExample {
   }
   //#
 
-  public void main() {
+  public static void main(String[] args) {
     final ActorSystem system = ActorSystem.create("system");
     final ActorRef eventLog = null;
 
     //#event-driven-communication
 
-    final ActorRef pingActor = system.actorOf(Props.create(PingActor.class, () -> new PingActor("ping", eventLog, system.deadLetters())));
-    final ActorRef pongActor = system.actorOf(Props.create(PongActor.class, () -> new PongActor("pong", eventLog)));
+    CommunicationExample ce = new CommunicationExample();
+    final ActorRef pingActor = system.actorOf(Props.create(PingActor.class, () -> ce.new PingActor("ping", eventLog, system.deadLetters())));
+    final ActorRef pongActor = system.actorOf(Props.create(PongActor.class, () -> ce.new PongActor("pong", eventLog)));
 
     pingActor.tell("serve", noSender());
     //#

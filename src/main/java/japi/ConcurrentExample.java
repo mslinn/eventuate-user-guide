@@ -33,7 +33,6 @@ public class ConcurrentExample {
   //#detecting-concurrent-update
 
   class ExampleActor extends AbstractEventsourcedActor {
-
     private Collection<String> currentState = Collections.emptyList();
     private VectorTime updateTimestamp = VectorTime.Zero();
 
@@ -55,4 +54,6 @@ public class ConcurrentExample {
     }
   }
   //#
+
+  // TODO Make this into an executable example
 }

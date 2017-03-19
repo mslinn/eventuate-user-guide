@@ -24,8 +24,8 @@ import com.rbmhtechnology.eventuate.AbstractEventsourcedView;
 import com.rbmhtechnology.eventuate.VectorTime;
 //#
 
+// TODO turn this into a runnable example
 public class ViewExample {
-
   //#event-sourced-view
 
   class ExampleView extends AbstractEventsourcedView {
@@ -49,11 +49,9 @@ public class ViewExample {
   }
 
   // Commands
-  class GetAppendCount {
-  }
+  class GetAppendCount { }
 
-  class GetResolveCount {
-  }
+  class GetResolveCount { }
 
   // Command replies
   class GetAppendCountReply {

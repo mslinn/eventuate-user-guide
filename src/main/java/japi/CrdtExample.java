@@ -23,8 +23,8 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+// TODO turn this into a runnable example
 public class CrdtExample {
-
   //#or-set-service
   /**
    * Java API of a replicated [[ORSet]] CRDT service.
@@ -53,7 +53,6 @@ public class CrdtExample {
   //#
 
   abstract class CRDTService<A, B> {
-
     private final String serviceId;
     private final ActorRef log;
     private final ActorSystem system;
@@ -68,12 +67,10 @@ public class CrdtExample {
       return CompletableFuture.completedFuture(null);
     }
 
-    public void start() {
-    }
+    public void start() {}
   }
 
-  interface ORSet<A> {
-  }
+  interface ORSet<A> {}
 
   private class AddOp  {
     final Object entry;

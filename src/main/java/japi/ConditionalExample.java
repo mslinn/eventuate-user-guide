@@ -42,11 +42,9 @@ import static scala.compat.java8.JFunction.proc;
 //#
 
 public class ConditionalExample {
-
   //#conditional-requests
 
   class ExampleActor extends AbstractEventsourcedActor {
-
     private final String id;
     private Collection<String> currentState = Collections.emptyList();
 
@@ -104,21 +102,25 @@ public class ConditionalExample {
     }
   }
   //#
-  public void main() {
-
+  public static void main(String[] args) {
     final ActorSystem system = ActorSystem.create("");
     final ActorRef eventLog = null;
     final ExecutionContextExecutor dispatcher = system.dispatcher();
 
     //#conditional-requests
 
-    final ActorRef ea = system.actorOf(Props.create(ExampleActor.class, () -> new ExampleActor("ea", eventLog)));
-    final ActorRef ev = system.actorOf(Props.create(ExampleView.class, () -> new ExampleView("ev", eventLog)));
+    ConditionalExample ce = new ConditionalExample()
+    final ActorRef ea = system.actorOf(Props.create(ExampleActor.class, () -> ce.new ExampleActor("ea", eventLog)));
+    final ActorRef ev = system.actorOf(Props.create(ExampleView.class, () -> ce.new ExampleView("ev", eventLog)));
 
     final Timeout timeout = Timeout.apply(5, TimeUnit.SECONDS);
 
-    Patterns.ask(ea, new Append("a"), timeout)
-      .flatMap(func(m -> Patterns.ask(ev, new ConditionalRequest(((AppendSuccess) m).updateTimestamp, new GetAppendCount()), timeout)), dispatcher)
+    Patterns.ask(ea, ce.new Append("a"), timeout)
+      .flatMap(func(m ->
+          Patterns.ask(ev,
+              new ConditionalRequest(((AppendSuccess) m).updateTimestamp, ce.new GetAppendCount()), timeout)
+          )
+        , dispatcher)
       .onComplete(proc(result -> {
         if (result.isSuccess()) {
           System.out.println("append count = " + ((GetAppendCountReply) result.get()).count);
@@ -128,6 +130,5 @@ public class ConditionalExample {
     //#
   }
 
-  class GetAppendCount {
-  }
+  class GetAppendCount {}
 }
