@@ -88,6 +88,11 @@ To run this code, move to the ``eventuate-user-guide`` directory. To run the Sca
 
     sbt "runMain sapi.ActorExample"
 
+FIXME: Uncaught error from thread [location-eventuate.log.dispatchers.write-dispatcher-7] shutting down JVM since 'akka.jvm-exit-on-fatal-error' is enabled for ActorSystem[location]
+java.lang.UnsatisfiedLinkError: org.fusesource.leveldbjni.internal.NativeOptions.init()V
+See http://stackoverflow.com/questions/19425613/unsatisfiedlinkerror-with-native-library-under-sbt
+I tried setting ``fork in Runtime := true`` but no joy
+
 To run the Java version, type::
 
     sbt "runMain japi.ActorExample"

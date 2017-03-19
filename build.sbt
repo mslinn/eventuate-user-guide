@@ -48,10 +48,22 @@ libraryDependencies ++= Seq(
 //  "com.rbmhtechnology" %% "eventuate-adapter-stream" % evVer withSources(),
 //  "com.rbmhtechnology" %% "eventuate-adapter-vertx"  % evVer withSources(),
 //  "com.rbmhtechnology" %% "eventuate-adapter-spark"  % evVer withSources(),
+  "org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8" withSources(),
   //
   "org.scalatest"     %% "scalatest"   % "3.0.1" % Test withSources(),
   "junit"             %  "junit"       % "4.12"  % Test
 )
+
+discoveredMainClasses in Compile += "japi.ActorExample"
+discoveredMainClasses in Compile += "japi.CommunicationExample"
+discoveredMainClasses in Compile += "japi.ConcurrentExample"
+discoveredMainClasses in Compile += "japi.CrdtExample"
+discoveredMainClasses in Compile += "japi.ResolveExample"
+discoveredMainClasses in Compile += "japi.TrackingExample"
+discoveredMainClasses in Compile += "japi.ViewExample"
+
+fork in Test := true
+fork in Runtime := true
 
 logLevel := Level.Warn
 
