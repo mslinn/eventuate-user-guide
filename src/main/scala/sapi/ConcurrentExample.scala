@@ -34,24 +34,28 @@ object ConcurrentExample extends App {
     override val eventLog: ActorRef
   ) extends EventsourcedActor {
     private var currentState: Vector[String] = Vector.empty
-    private var updateTimestamp: VectorTime = VectorTime() // this is new
+    // This is the first time we see a VectorTime instance:
+    private var updateTimestamp: VectorTime = VectorTime()
 
-    override def onCommand: PartialFunction[Any, Unit] = {
-      // ...
+    def onCommand: PartialFunction[Any, Unit] = {
+      case _ =>  // ...
   //#
-      case _ =>
-    }
-  //#detecting-concurrent-update
 
-    override def onEvent: PartialFunction[Any, Unit] = {
+      // todo add code here to make this example more realistic
+
+  //#detecting-concurrent-update
+    }
+
+    def onEvent: PartialFunction[Any, Unit] = {
       case Appended(entry2) =>
         if (updateTimestamp < lastVectorTimestamp) { // regular update
           currentState = currentState :+ entry2
           updateTimestamp = lastVectorTimestamp
-        } else if (updateTimestamp conc lastVectorTimestamp) { // concurrent update
+        } else if (updateTimestamp conc lastVectorTimestamp) {
+          // concurrent update
           // TODO: track conflicting versions
         }
     }
-    //#
   }
+  //#
 }

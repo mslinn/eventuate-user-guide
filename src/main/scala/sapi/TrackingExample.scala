@@ -34,13 +34,16 @@ object TrackingExample extends App {
       override val aggregateId: Option[String],
       override val eventLog: ActorRef
     ) extends EventsourcedActor {
-    private var versionedState: ConcurrentVersions[Vector[String], String] = // different
+    // notice this is different:
+    private var versionedState: ConcurrentVersions[Vector[String], String] =
       ConcurrentVersions(Vector.empty, (s, a) => s :+ a)
 
     override def onCommand: PartialFunction[Any, Unit] = {
-      // ...
+      case _ =>  // ...
   //#
-      case _ =>
+
+      // todo write something here to make this more realistic
+
   //#tracking-conflicting-versions
     }
 
@@ -48,11 +51,13 @@ object TrackingExample extends App {
       case Appended(entry) =>
         versionedState = versionedState.update(entry, lastVectorTimestamp)
         if (versionedState.conflict) {
-          val conflictingVersions: Seq[Versioned[Vector[String]]] = versionedState.all
+          val conflictingVersions: Seq[Versioned[Vector[String]]] =
+            versionedState.all
+          val conflictExists = conflictingVersions.size==1
           // TODO: resolve conflicting versions
         } else {
           val currentState: Vector[String] = versionedState.all.head.value
-          // ...
+          // happily process causal event
         }
     }
   }

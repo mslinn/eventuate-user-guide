@@ -90,8 +90,10 @@ object ActorExample extends App {
   //#
 
   //#create-two-instances
-  val b2: ActorRef = system.actorOf(Props(new ExampleActor("2", Some("b"), eventLog)))
-  val c3: ActorRef = system.actorOf(Props(new ExampleActor("3", Some("c"), eventLog)))
+  val b2: ActorRef =
+    system.actorOf(Props(new ExampleActor("2", Some("b"), eventLog)))
+  val c3: ActorRef =
+    system.actorOf(Props(new ExampleActor("3", Some("c"), eventLog)))
 
   b2 ! Append("a")
   b2 ! Append("b")
@@ -117,7 +119,7 @@ object ActorExample extends App {
 
   Thread.sleep(1000)
 
-  d4 ! Print
+  d4 ! Print // fixme why is this not referenced in user-guide.rst?
   d5 ! Print
 
   //#send-another-append

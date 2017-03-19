@@ -165,7 +165,7 @@ Referring to the above code, here is an example sequence:
 6. `EventsourcedActor`_ subclasses that need to persist new events within the `onEvent`_ handler should mix in the
    `PersistOnEvent`_ trait and invoke the `persistOn`_ method.
 
-During normal application startup, or if the actor is restarted, persisted events are replayed to the `onEvent`_ handler,
+During normal application startup, or if the actor is restarted, persisted events are replayed via the `onEvent`_ handler,
 which recovers internal state. Only then may new commands be processed.
 
 .. _AbstractEventsourcedActor: http://rbmhtechnology.github.io/eventuate/latest/api/index.html#com.rbmhtechnology.eventuate.AbstractEventsourcedActor
@@ -186,7 +186,7 @@ In the following, a single instance of ``ExampleActor`` is created and two ``App
    .. includecode:: ../main/java/japi/ActorExample.java
       :snippet: create-one-instance
 
-Send a ``Print`` command like this:
+Send a ``Print`` command to the ``ExampleActor`` instance like this:
 
 .. tabbed-code::
    .. includecode:: ../main/scala/sapi/ActorExample.scala
@@ -198,7 +198,7 @@ The output should be::
 
     [id = 1, aggregate id = a] a,b
 
-When the application is restarted, persisted events are replayed to ``onEvent``, which recovers ``currentState``.
+When the application is restarted, persisted events are replayed via the ``onEvent`` handler, which recovers ``currentState``.
 Sending another ``Print`` command should again print::
 
     [id = 1, aggregate id = a] a,b
@@ -206,65 +206,70 @@ Sending another ``Print`` command should again print::
 Shared Event Logs
 -----------------
 In the following sections, several instances of ``ExampleActor`` are created.
-They are assumed to share a :ref:`replicated-event-log`, event though they are running at different *locations*.
+They share a :ref:`replicated-event-log`, event though they are running at different *locations*.
 
-A shared event log is a prerequisite for event-sourced actors to consume each other’s events.
-However, sharing an event log does not necessarily mean all events are broadcasted between every actor that accesses the same log.
+A shared event log is a prerequisite for event-sourced actors to be able to read each other’s events.
+However, sharing an event log does not necessarily mean all events are consumed by every actor that accesses the same log.
 The ``aggreagteId`` determines which events actors consume from other actors;
-``aggreagteId`` acts a filtering mechanism, so actors only receive events from other actors with the same ``aggreagteId``.
+``aggreagteId`` acts as a filtering mechanism, because actors that define a ``aggreagteId`` property only receive events
+from other actors with the same ``aggreagteId`` value.
 
-Creating two isolated instances
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-When creating two instances of ``ExampleActor`` with different ``aggregateId``\ s, they are isolated from each other by default,
-and do not consume each other’s events:
+Isolated EventsourcedActor Instances
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``EventsourcedActor`` instances with different ``aggregateId`` values are isolated from each other,
+which means they do not consume each other’s events:
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/sapi/ActorExampleScala.scala
+   .. includecode:: ../main/scala/sapi/ActorExample.scala
       :snippet: create-two-instances
    .. includecode:: ../main/java/japi/ActorExample.java
       :snippet: create-two-instances
 
-Sending two ``Print`` commands
+Here is an example of sending ``Print`` commands to isolated actors:
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/sapi/ActorExampleScala.scala
+   .. includecode:: ../main/scala/sapi/ActorExample.scala
       :snippet: print-two-instances
    .. includecode:: ../main/java/japi/ActorExample.java
       :snippet: print-two-instances
 
-should print::
+should display::
 
     [id = 2, aggregate id = b] a,b
     [id = 3, aggregate id = c] x,y
 
-Creating Two Replica Instances
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Replicated EventsourcedActor Instances
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-When creating two ``ExampleActor`` instances with the same ``aggregateId``, they consume each other’s events [#]_.
+``EventsourcedActor`` instances with the same ``aggregateId`` are replicants, which means they consume each other’s events [#]_.
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/sapi/ActorExampleScala.scala
+   .. includecode:: ../main/scala/sapi/ActorExample.scala
       :snippet: create-replica-instances
    .. includecode:: ../main/java/japi/ActorExample.java
       :snippet: create-replica-instances
 
-Here, ``d4`` processes an ``Append`` command and persists an ``Appended`` event.
-Both ``d4`` and ``d5`` consume that event and update their internal state.
-After waiting a bit for convergence, sending a ``Print`` command to both actors should print::
+In the code above, there are two ``EventsourcedActor`` subclass instances: ``d4`` and ``d5``.
+``d4`` processes an ``Append`` command and persists an ``Appended`` event.
+Next, both ``d4`` and ``d5`` consume that event and update their internal state.
+After a short time, the values in the actors distributed throughout the network converge to a single value.
+Once this has happened, sending a ``Print`` command to both actors should display the same value::
 
     [id = 4, aggregate id = d] a
     [id = 5, aggregate id = d] a
 
-After both replicas have converged, another ``Append`` is sent to ``d5``.
+FIXME The ActorExample.scala code does not match the above description. See "fixme why is this not referenced in user-guide.rst?"
+
+After both replicas have converged, another ``Append`` is sent to ``d5``:
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/sapi/ActorExampleScala.scala
+   .. includecode:: ../main/scala/sapi/ActorExample.scala
       :snippet: send-another-append
    .. includecode:: ../main/java/japi/ActorExample.java
       :snippet: send-another-append
 
-Again both actors consume the event and sending another ``Print`` command should print::
+Again both actors consume the event and after a waiting a short time for the values to converge,
+sending another ``Print`` command should display::
 
     [id = 4, aggregate id = d] a,b
     [id = 5, aggregate id = d] a,b
@@ -274,30 +279,30 @@ Again both actors consume the event and sending another ``Print`` command should
    command is sent after both actors have processed the ``Appended`` event from the first ``Append`` command.
 
    In other words, the first ``Appended`` event must *happen before* the second one.
-   Only in this case, these two events can have a causal relationship.
-   Since events are guaranteed to be delivered in potential causal order to all replicas, they can converge to the same state.
+   Only in this case can these two events can have a causal relationship.
+   Since the network required for Eventuate guarantees that events will be delivered in potential causal order,
+   the ``EventsourcedActor`` replicas are able to converge to the same state.
 
    When concurrent updates are made to both replicas, the corresponding ``Appended`` events are not causally related and
-   can be delivered in any order to both replicas.
+   may be delivered in any order to both replicas.
    This may cause replicas to diverge because *append* operations do not commute.
+
    The following sections give examples how to detect and handle concurrent updates.
 
 Detecting Concurrent Updates
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Eventuate tracks *happened-before* relationships (= potential causality) of events with :ref:`vector-clocks`.
-Why is that needed at all? Let’s assume that an event-sourced actor emits an event ``e1`` for changing internal state
+----------------------------
+Eventuate tracks *happened-before* relationships of events (events that are potentially causally related) with :ref:`vector-clocks`.
+Lets consider for a moment why this is important. Assume that an event-sourced actor emits an event ``e1`` for changing internal state
 and later receives an event ``e2`` from a replica instance. If the replica instance emits ``e2`` after having processed ``e1``,
-the actor can apply ``e2`` as regular update. If the replica instance emits ``e2`` before having received ``e1``,
-the actor receives a concurrent, potentially conflicting event.
+the actor can apply ``e2`` as regular update. However, if the replica instance emits ``e2`` before having received ``e1``,
+the actor has received a concurrent, potentially conflicting event.
 
-How can the actor determine if ``e2`` is a regular i.e. causally related or concurrent update?
-It can do so by comparing the vector timestamps of ``e1`` and ``e2``, where ``t1`` is the vector timestamp of ``e1``
-and ``t2`` the vector timestamp of ``e2``.
-If events ``e1`` and ``e2`` are concurrent then ``t1 conc t2`` evaluates to ``true``. Otherwise,
-they are causally related and ``t1 < t2`` evaluates to ``true`` (because ``e1`` *happened-before* ``e2``).
+The actor determines if ``e2`` is a regular (causally related) or a concurrent update by comparing the vector timestamps.
+Let ``t1`` be the vector timestamp of ``e1`` and ``t2`` be the vector timestamp of ``e2``.
+If events ``e1`` and ``e2`` are concurrent then ``t1 conc t2`` evaluates ``true``.
+Otherwise, they are causally related and ``t1 < t2`` evaluates ``true`` because ``e1`` *happened-before* ``e2``.
 
-The vector timestamp of an event can be obtained with ``lastVectorTimestamp`` during event processing.
+The vector timestamp of an event can be obtained from the ``lastVectorTimestamp`` property during event processing.
 Vector timestamps can be attached as *update timestamp* to current state and compared with the vector timestamp of a
 new event in order to determine whether the new event is causally related to the previous state update or not\ [#]_:
 
@@ -307,18 +312,24 @@ new event in order to determine whether the new event is causally related to the
    .. includecode:: ../main/java/japi/ConcurrentExample.java
       :snippet: detecting-concurrent-update
 
-Attaching update timestamps to current state and comparing them with vector timestamps of new events can be easily
-abstracted over so that applications don’t have to deal with these low level details, as shown in the next section.
+  The Java code is not executable at this time; hopefully we will address that soon.
+  You can run the Scala code from the command line by typing::
+
+      sbt "runMain sapi.ConcurrentExample"
 
 .. _tracking-conflicting-versions:
 
 Tracking Conflicting Versions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------
+This section demonstrates that update timestamps can be stored in an actor's current state and compared with
+the vector timestamps of new events.
+We will also see that this process can be abstracted, so that applications do not need to deal with these low level details.
 
-If state update operations from concurrent events do not commute, conflicting versions of actor state arise that must be tracked and resolved.
-This can be done with Eventuate’s ``ConcurrentVersions[S, A]`` abstraction and an application-defined *update function* of
-type ``(S, A) => S`` where ``S`` is the type of actor state and ``A`` the update type.
-In our example, the ``ConcurrentVersions`` type is ``ConcurrentVersions[Vector[String], String]`` and the update function ``(s, a) => s :+ a``:
+Since state update operations from concurrent events do not commute, conflicting versions of actor state must be identified and resolved.
+This can be done with Eventuate’s
+`ConcurrentVersions <http://rbmhtechnology.github.io/eventuate/latest/api/index.html#com.rbmhtechnology.eventuate.ConcurrentVersions>`_
+trait and an application-defined *update function* of type ``(S, A) => S``, where ``S`` is the type of actor state and ``A`` is the update type.
+In the following example, the ``ConcurrentVersions`` type is ``ConcurrentVersions[Vector[String], String]`` and the update function is ``(s, a) => s :+ a``:
 
 .. tabbed-code::
    .. includecode:: ../main/scala/sapi/TrackingExample.scala
@@ -326,31 +337,34 @@ In our example, the ``ConcurrentVersions`` type is ``ConcurrentVersions[Vector[S
    .. includecode:: ../main/java/japi/TrackingExample.java
       :snippet: tracking-conflicting-versions
 
-Internally, ``ConcurrentVersions`` maintains versions of actor state in a tree structure where each concurrent ``update`` creates a new branch.
-The shape of the tree is determined solely by the vector timestamps of the corresponding update events.
+Internally, ``ConcurrentVersions`` maintains versions of actor state in a tree structure where each concurrent ``versionedState.update`` creates a new branch.
+The shape of the tree is determined solely by the vector timestamps of the corresponding ``versionedState.update`` events.
 
 An event’s vector timestamp is passed as ``lastVectorTimestamp`` argument to ``update``.
 The ``update`` method internally creates a new version by applying the update function ``(s, a) => s :+ a`` to the
 closest predecessor version and the actual update value (``entry``).
 The ``lastVectorTimestamp`` is attached as update timestamp to the newly created version.
 
-Concurrent versions of actor state and their update timestamp can be obtained with ``all`` which is a sequence of type
-``Seq[Versioned[Vector[String]]]`` in our example.
+In this example, concurrent versions of actor state and their update timestamp can be obtained with ``versionedState.all`` which is a sequence of type
+``Seq[Versioned[Vector[String]]]``.
 The Versioned_ data type represents a particular version of actor state and its update timestamp (= ``vectorTimestamp`` field).
 
 If ``all`` contains only a single element, there is no conflict and the element represents the current, conflict-free actor state.
 If the sequence contains two or more elements, there is a conflict where the elements represent conflicting versions of actor states.
 They can be resolved either automatically or interactively.
 
-.. note::
-   Only concurrent updates to replicas with the same ``aggregateId`` may conflict.
-   Concurrent updates to actors with different ``aggregateId`` do not conflict (unless an application does custom :ref:`event-routing`).
+The Java code is not executable at this time; hopefully we will address that soon.
+You can run the Scala code from the command line by typing::
 
-   Also, if the data type of actor state is designed in a way that update operations commute, concurrent updates can be made conflict-free.
-   This is discussed in section :ref:`commutative-replicated-data-types`.
+    sbt "runMain sapi.TrackingExample"
 
 Resolving Conflicting Versions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------
+Only concurrent updates to replicas with the same ``aggregateId`` may conflict.
+Concurrent updates to actors with different ``aggregateId`` do not conflict, unless an application performs custom :ref:`event-routing`.
+
+Also, if the data type of actor state is designed in a way that update operations commute, concurrent updates can be made conflict-free.
+This is discussed in the :ref:`commutative-replicated-data-types` section of this User Guide.
 
 .. _automated-conflict-resolution:
 
@@ -360,8 +374,9 @@ Automated Conflict Resolution
 The following is a simple example of automated conflict resolution:
 if a conflict has been detected, the version with the higher wall clock timestamp is selected to be the winner.
 In case of equal wall clock timestamps, the version with the lower emitter id is selected.
-The wall clock timestamp can be obtained with ``lastSystemTimestamp`` during event handling, the emitter id with ``lastEmitterId``.
 The emitter id is the ``id`` of the ``EventsourcedActor`` that emitted the event.
+The wall clock timestamp can be obtained from the actor's ``lastSystemTimestamp`` property,
+and the emitter id can be obtained from the actor's ``lastEmitterId`` property.
 
 .. tabbed-code::
    .. includecode:: ../main/scala/sapi/ResolveExample.scala
@@ -371,10 +386,15 @@ The emitter id is the ``id`` of the ``EventsourcedActor`` that emitted the event
 
 Here, conflicting versions are sorted by descending wall clock timestamp and ascending emitter id where the latter is tracked as ``creator`` of the version.
 The first version is selected to be the winner.
-Its vector timestamp is passed as argument to ``resolve`` which selects this version and discards all other versions.
+Its vector timestamp is passed as argument to ``resolve``, which selects this version and discards all other versions.
 
 More advanced conflict resolution could select a winner depending on the actual value of concurrent versions.
 After selection, an application could even update the winner with the *merged* value of all conflicting versions\ [#]_.
+
+The Java code is not executable at this time; hopefully we will address that soon.
+You can run the Scala code the command line by typing::
+
+    sbt "runMain sapi.ResolveExample"
 
 .. note::
    For replicas to converge, it is important that winner selection does not depend on the order of conflicting events.
@@ -400,6 +420,11 @@ which a ``Resolved`` event is derived and persisted. Handling of ``Resolved`` at
 In addition to just selecting a winner, an application could also update the winner version in a second step, for example,
 with a value derived from the merge result of conflicting versions.
 Support for *atomic*, interactive conflict resolution with an application-defined merge function is planned for later Eventuate releases.
+
+The Java code is not executable at this time; hopefully we will address that soon.
+You can run the Scala code the command line by typing::
+
+    sbt "runMain sapi.InteractiveResolveExample"
 
 .. note::
    Interactive conflict resolution requires agreement among replicas that are affected by a given conflict: only one of
@@ -473,6 +498,11 @@ In the following example, the view counts all ``Appended`` and ``Resolved`` even
    .. includecode:: ../main/java/japi/ViewExample.java
       :snippet: event-sourced-view
 
+The Java code is not executable at this time; hopefully we will address that soon.
+You can run the Scala code the command line by typing::
+
+    sbt "runMain sapi.ViewExample"
+
 Event-sourced views handle events in the same way as event-sourced actors by implementing an ``onEvent`` handler.
 The ``onCommand`` handler in the example processes the queries ``GetAppendCount`` and ``GetResolveCount``.
 
@@ -516,7 +546,13 @@ For ``ConditionalRequest`` processing, an event-sourced view must extend the ``C
 ``ConditionalRequests`` internally delays the command, if needed, and only dispatches ``GetAppendCount`` to the
 view’s ``onCommand`` handler if the condition timestamp is in the *causal past* of the view (which is earliest the case
 when the view consumed the update event).
-When running the example with an empty event log, it should print::
+
+The Java code is not executable at this time; hopefully we will address that soon.
+You can run the Scala code the command line by typing::
+
+    sbt "runMain sapi.ConditionalExample"
+
+When running the example with an empty event log, it should display::
 
     append count = 1
 
@@ -553,6 +589,11 @@ the event is not emitted in the actor’s ``onCommand`` handler but in the ``onE
 For that purpose, the actor has to mixin the ``PersistOnEvent`` trait and use the ``_persistOnEventMethod`` method.
 The emitted ``Pong`` too isn’t consumed by its emitter but rather by the ``PingActor``, emitting another ``Ping``, and so on.
 The game ends when the ``PingActor`` received the 10th ``Pong``.
+
+The Java code is not executable at this time; hopefully we will address that soon.
+You can run the Scala code the command line by typing::
+
+    sbt "runMain sapi.CommunicationExample"
 
 .. note::
    The ping-pong game is **reliable**.
