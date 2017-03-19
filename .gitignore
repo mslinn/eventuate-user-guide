@@ -10,3 +10,4 @@
 *.stackdump
 project/target/
 target/
+sphinx.log

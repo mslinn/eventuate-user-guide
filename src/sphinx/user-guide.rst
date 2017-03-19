@@ -202,7 +202,7 @@ Vector timestamps can be attached as *update timestamp* to current state and com
 new event in order to determine whether the new event is causally related to the previous state update or not\ [#]_:
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/doc/EventsourcedActorsUpdated.scala
+   .. includecode:: ../main/scala/doc/ConcurrentExample.scala
       :snippet: detecting-concurrent-update
    .. includecode:: ../main/java/doc/ConcurrentExample.java
       :snippet: detecting-concurrent-update
@@ -221,7 +221,7 @@ type ``(S, A) => S`` where ``S`` is the type of actor state and ``A`` the update
 In our example, the ``ConcurrentVersions`` type is ``ConcurrentVersions[Vector[String], String]`` and the update function ``(s, a) => s :+ a``:
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/doc/EventsourcedActorsUpdated.scala
+   .. includecode:: ../main/scala/doc/TrackingExample.scala
       :snippet: tracking-conflicting-versions
    .. includecode:: ../main/java/doc/TrackingExample.java
       :snippet: tracking-conflicting-versions
@@ -264,7 +264,7 @@ The wall clock timestamp can be obtained with ``lastSystemTimestamp`` during eve
 The emitter id is the ``id`` of the ``EventsourcedActor`` that emitted the event.
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/doc/EventsourcedActorsUpdated.scala
+   .. includecode:: ../main/scala/doc/ResolveExample.scala
       :snippet: automated-conflict-resolution
    .. includecode:: ../main/java/doc/ResolveExample.java
       :snippet: automated-conflict-resolution
@@ -287,7 +287,7 @@ Interactive conflict resolution does not resolve conflicts immediately but reque
 The following is a very simple example of interactive conflict resolution: a user selects a winner version if conflicting versions of application state exist.
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/doc/EventsourcedActorsUpdated.scala
+   .. includecode:: ../main/scala/doc/InteractiveResolveExample.scala
       :snippet: interactive-conflict-resolution
    .. includecode:: ../main/java/doc/ResolveExample.java
       :snippet: interactive-conflict-resolution
