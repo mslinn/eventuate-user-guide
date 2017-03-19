@@ -1,6 +1,6 @@
 organization := "com.micronautics"
 
-name := "eventuate-sourced-actors"
+name := "eventuate-user-guide"
 
 version := "0.1.6"
 
@@ -24,7 +24,7 @@ scalacOptions ++= Seq(
 scalacOptions in (Compile, doc) ++= baseDirectory.map {
   (bd: File) => Seq[String](
     "-sourcepath", bd.getAbsolutePath,
-    "-doc-source-url", "https://github.com/mslinn/eventuate-sourced-actors/tree/master€{FILE_PATH}.scala"
+    "-doc-source-url", "https://github.com/mslinn/eventuate-user-guide/tree/master€{FILE_PATH}.scala"
   )
 }.value
 
