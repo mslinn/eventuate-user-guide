@@ -62,6 +62,7 @@ discoveredMainClasses in Compile += "japi.ResolveExample"
 discoveredMainClasses in Compile += "japi.TrackingExample"
 discoveredMainClasses in Compile += "japi.ViewExample"
 
+parallelExecution in Test := false
 fork in Test := true
 fork in Runtime := true
 

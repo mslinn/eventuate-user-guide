@@ -109,7 +109,7 @@ public class ConditionalExample {
 
     //#conditional-requests
 
-    ConditionalExample ce = new ConditionalExample()
+    ConditionalExample ce = new ConditionalExample();
     final ActorRef ea = system.actorOf(Props.create(ExampleActor.class, () -> ce.new ExampleActor("ea", eventLog)));
     final ActorRef ev = system.actorOf(Props.create(ExampleView.class, () -> ce.new ExampleView("ev", eventLog)));
 
