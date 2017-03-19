@@ -16,7 +16,9 @@
 
 package sapi
 
-object ActorExampleScala extends App {
+object ActorExample extends App {
+  import com.rbmhtechnology.eventuate.ReplicationConnection
+
   //#event-sourced-actor
   import akka.actor._
   import com.rbmhtechnology.eventuate.EventsourcedActor
@@ -61,19 +63,24 @@ object ActorExampleScala extends App {
   //#create-one-instance
   import com.rbmhtechnology.eventuate.ReplicationConnection._
 
-  // `DefaultRemoteSystemName` is defined as "location" in com.rbmhtechnology.eventuate.ReplicationConnection
-  implicit val system: ActorSystem = ActorSystem(DefaultRemoteSystemName) // ActorSystem name is "location"
+  // `DefaultRemoteSystemName` is defined as "location" in the
+  // [[ReplicationConnection]] object, so the ActorSystem name
+  // is "location"
+  implicit val system: ActorSystem = ActorSystem(DefaultRemoteSystemName)
   //#
 
   //#create-one-instance
-  // Wrap a new instance of a `LeveldbEventLog` configuration object with log id "qt-1" into an Actor
-  // This will create a directory called `target/log-qt-1/` to contain the log files
+
+  // Wrap a new instance of a `LeveldbEventLog` configuration object with
+  // log id "qt-1" into an Actor.
+  // This creates a log directory called `target/log-qt-1/`
   val eventLog: ActorRef = system.actorOf(LeveldbEventLog.props("qt-1"))
   //#
 
   //#create-one-instance
-  // Create a new instance of `ExampleActor` with `id` "1" and `aggregateId` Some("a");
-  // also provide the `eventLog` [[ActorRef]] to the `actorOf` [[akka.actor.Actor]] factory
+
+  // Create a new instance of ExampleActor with id=="1" and aggregateId==Some("a");
+  // also provide the eventLog [[ActorRef]] to the actorOf [[Actor]] factory
   val ea1 = system.actorOf(Props(new ExampleActor("1", Some("a"), eventLog)))
 
   ea1 ! Append("a")

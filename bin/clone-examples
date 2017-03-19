@@ -1,0 +1,11 @@
+#!/bin/bash
+
+DIR=eventuate-examples
+git init $DIR
+cd $DIR
+git remote add origin git@github.com:RBMHTechnology/eventuate.git
+git config core.sparsecheckout true
+echo "eventuate-examples/*" >> .git/info/sparse-checkout
+echo "eventuate-examples/*" >> .git/info/sparse-checkout
+echo "eventuate-examples/*" >> .git/info/sparse-checkout
+git pull --depth=1 origin master

@@ -4,117 +4,164 @@
 User guide
 ----------
 
-This is a brief user guide to Eventuate.
-You should read sections :ref:`overview` and :ref:`architecture` first.
+Welcome to the `Eventuate <http://rbmhtechnology.github.io/eventuate/>`_ user guide.
+
+What You Will Learn
+-------------------
 This user guide presents simple examples that demonstrate how to:
 
-- implement an event-sourced actor
-- replicate actor state with event sourcing
-- detect concurrent updates to replicated state
-- track conflicts from concurrent updates
-- resolve conflicts automatically and interactively
-- make concurrent updates conflict-free with operation-based CRDTs
-- implement an event-sourced view over many event-sourced actors
-- achieve causal read consistency across event-sourced actors and views and
-- implement event-driven communication between event-sourced actors.
+- Implement an event-sourced actor
+- Replicate actor state with event sourcing
+- Detect concurrent updates to replicated state
+- Track conflicts from concurrent updates
+- Resolve conflicts automatically and interactively
+- Make concurrent updates conflict-free with operation-based CRDTs
+- Implement an event-sourced view over many event-sourced actors
+- Achieve causal read consistency across event-sourced actors and views and
+- Implement event-driven communication between event-sourced actors.
 
 The user guide only scratches the surface of Eventuate.
-You can find further details in the :ref:`reference`.
+You can find further details in the :ref:`reference` documentation.
+
+Prerequisites
+^^^^^^^^^^^^^
+Before working through this user guide you should:
+
+* Be familiar with the Eventuate :ref:`overview` and :ref:`architecture`.
+* Have `Java 8 <http://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html>`_ installed.
+* Have SBT installed (`Mac <http://www.scala-sbt.org/0.13/docs/Installing-sbt-on-Mac.html>`_,
+  `Windows <http://www.scala-sbt.org/0.13/docs/Installing-sbt-on-Windows.html>`_,
+  `Linux <http://www.scala-sbt.org/0.13/docs/Installing-sbt-on-Linux.html>`_).
+* To work through the Java examples, you should be familiar with `programming Java 8 <https://docs.oracle.com/javase/tutorial/>`_.
+* To work through the Scala examples, you should be familiar with programming Scala.
+  The ultimate reference for Scala is `Programming in Scala <https://www.artima.com/shop/programming_in_scala>`_;
+  this book takes most people weeks or months of dedicated reading to complete, and years to assimilate.
+  A faster and better way to learn is via `ScalaCourses.com <https://www.GetScala.com>`_.
 
 .. _guide-event-sourced-actors:
 
-Event-sourced actors
---------------------
+About the Code Examples
+^^^^^^^^^^^^^^^^^^^^^^^
+Code examples in this document are provided for Scala and Java.
+The `Scaladoc`_ is currently the API reference for both Scala and Java.
+No separate Javadoc exists.
+Java programmers may find the Scaladoc somewhat confusing because it requires rudimentary knowledge of Scala in order to interpret it.
+Studying the provided working Java programs should help.
 
+.. _Scaladoc: http://rbmhtechnology.github.io/eventuate/latest/api/index.html
+
+Event-Sourced Actors
+--------------------
 An event-sourced actor is an actor that captures changes to its internal state as a sequence of events.
-It *persists* these events to an event log and *replays* them to recover internal state after a crash or a planned re-start.
+It *persists* these events to an event log and *replays* them to recover internal state after a crash or an orderly restart.
 This is the basic idea behind `event sourcing`_: instead of storing current application state,
 the full history of changes is stored as *immutable facts* and current state is derived from these facts.
 
-Event-sourced actors distinguish between *commands* and *events*.
-During command processing they usually validate external commands against internal state and, if validation succeeds,
-write one or more events to their event log.
-During event processing they consume events they have written and update internal state by handling these events.
+Event-sourced actors respond to *commands* and *events*.
+One or more events are created when an event-sourced actor processes a valid command.
 
-.. hint::
-   Event-sourced actors can also write new events during event processing.
-   This is covered in section :ref:`guide-event-driven-communication`.
+* **During command processing**, event-sourced actors validate external commands against internal state and, if validation succeeds,
+  they persist (write) one or more events to their named event log.
+* **During event processing**, event-sourced actors replay (read) previously-written events from their named log,
+  then they update their internal state. Event-sourced actors can also create and write additional events during event processing.
+  This topic is discussed in greater detail in the :ref:`guide-event-driven-communication` section of the Eventuate :ref:`architecture` document.
 
-Concrete event-sourced actors must implement the ``EventsourcedActor_`` trait, which defines the ``onCommand_`` method which acts as a message handler.
-The following ``ExampleActor`` encapsulates state ``currentState`` of type ``Vector[String]``, to which entries can be appended:
+*When writing in Scala:* concrete event-sourced actors mix in the `EventsourcedActor`_ trait and define two methods:
+the `onCommand`_ method, which persists valid commands as events, and the `onEvent`_ method, which reads events,
+takes any necessary action and modifies internal state.
+In the following code, ``ExampleActor`` encapsulates state ``currentState`` of type ``Vector[String]``, to which entries can be appended.
+
+*When writing in Java:* extend the `AbstractEventsourcedActor`_ abstract class and define the ``onCommand`` and ``onEvent`` methods,
+which have the same responsibilities as the Scala version of the same methods.
+In the following code, ``ExampleActor`` encapsulates state ``currentState`` of type ``Collection<String>``, to which entries can be appended.
+Note that the Java code is a lot longer than the Scala version.
+This is one of the differences between the two languages; not only Scala is much more succinct, it is also more expressive and flexible.
+
+``ActorExample``
+^^^^^^^^^^^^^^^^
+This code example for this section and the next is provided in the accompanying source code for this User Guide,
+in the ``ActorExample.scala`` and ``ActorExample.java`` programs.
+To run this code, move to the ``eventuate-user-guide`` directory. To run the Scala version, type::
+
+    sbt "runMain sapi.ActorExample"
+
+To run the Java version, type::
+
+    sbt "runMain japi.ActorExample"
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/sapi/ActorExampleScala.scala
+   .. includecode:: ../main/scala/sapi/ActorExample.scala
       :snippet: event-sourced-actor
    .. includecode:: ../main/java/japi/ActorExample.java
       :snippet: event-sourced-actor
 
-When an event-sourced actor receives a command, it first persists it, then modifies its internal state.
-Here is an example sequence:
+As shown above, ``EventsourcedActor`` implementations must define a global unique ``id`` and an ``eventLog`` actor reference for writing and replaying events.
+An event-sourced actor may also define an optional ``aggregateId``, which affects how events are routed between event-sourced actors.
+Section :ref:`event-log` explains how to create ``eventLog`` actor references.
+
+As already mentioned, When an event-sourced actor receives a command, first the actor persists the command as an event, then it modifies its own internal state.
+Referring to the above code, here is an example sequence:
 
 1. An ``Append`` command is received by ``ExampleActor``'s ``onCommand`` command handler.
 2. The ``onCommand`` command handler derives an ``Appended`` event and ``persist``\ s it to the ``eventLog`` pointed to
-   by the ``ActorRef`` it was passed when it was created.
+   by the ``ActorRef`` that it was passed when it was created.
 3. If persistence succeeds, the sender of the command is informed about successful processing.
-   If persistence fails, the command sender is informed about the failure so it can retry, if needed.
+   If persistence fails, the command sender is informed about the failure so it can retry, if appropriate.
 4. The ``ExampleActor``'s ``onEvent`` handler is automatically called after a successful ``persist``.
 5. The ``onEvent`` handler updates ``currentState``.
+6. `EventsourcedActor`_ subclasses that need to persist new events within the `onEvent`_ handler should mix in the
+   `PersistOnEvent`_ trait and invoke the `persistOn`_ method.
 
-During normal application startup or if the actor is re-started, persisted events are replayed to the ``onEvent`` handler,
-which recovers internal state. Only then are new commands processed.
+During normal application startup, or if the actor is restarted, persisted events are replayed to the `onEvent`_ handler,
+which recovers internal state. Only then may new commands be processed.
 
-``EventsourcedActor``s that need to persist new events within the ``onEvent`` handler should mixin the
-``PersistOnEvent_`` trait and invoke ``persistOnEventMethod_``.
-
-``EventsourcedActor`` implementations must define a global unique ``id`` and require an ``eventLog`` actor reference for writing and replaying events.
-An event-sourced actor may also define an optional ``aggregateId`` which has an impact how events are routed between event-sourced actors.
-
-.. hint::
-   Section :ref:`event-log` explains how to create ``eventLog`` actor references.
-
+.. _AbstractEventsourcedActor: http://rbmhtechnology.github.io/eventuate/latest/api/index.html#com.rbmhtechnology.eventuate.AbstractEventsourcedActor
 .. _EventsourcedActor: http://rbmhtechnology.github.io/eventuate/latest/api/index.html#com.rbmhtechnology.eventuate.EventsourcedActor
 .. _onCommand: http://rbmhtechnology.github.io/eventuate/latest/api/index.html#com.rbmhtechnology.eventuate.EventsourcedActor@onCommand:EventsourcedView.this.Receive
-.. _PersistOnEvent: http://rbmhtechnology.github.io/eventuate/latest/api/com/rbmhtechnology/eventuate/PersistOnEvent.html
-.. _persistOnEventMethod: http://rbmhtechnology.github.io/eventuate/latest/api/com/rbmhtechnology/eventuate/PersistOnEvent.html#persistOnEvent[A](event:A,customDestinationAggregateIds:Set[String]):Unit)
+.. _onEvent: http://rbmhtechnology.github.io/eventuate/latest/api/index.html#com.rbmhtechnology.eventuate.EventsourcedActor@onEvent:EventsourcedView.this.Receive
+.. _persistOn: http://rbmhtechnology.github.io/eventuate/latest/api/index.html#com.rbmhtechnology.eventuate.PersistOnEvent@persistOnEvent[A](event:A,customDestinationAggregateIds:Set[String]):Unit
+.. _persistOnEvent: http://rbmhtechnology.github.io/eventuate/latest/api/com/rbmhtechnology/eventuate/PersistOnEvent.html
 
-Creating a single instance
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Working With a Single Instance of an EventsourcedActor Subclass
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In the following, a single instance of ``ExampleActor`` is created and two ``Append`` commands are sent to it:
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/sapi/ActorExampleScala.scala
+   .. includecode:: ../main/scala/sapi/ActorExample.scala
       :snippet: create-one-instance
    .. includecode:: ../main/java/japi/ActorExample.java
       :snippet: create-one-instance
 
-Sending a ``Print`` command
+Send a ``Print`` command like this:
 
 .. tabbed-code::
-   .. includecode:: ../main/scala/sapi/ActorExampleScala.scala
+   .. includecode:: ../main/scala/sapi/ActorExample.scala
       :snippet: print-one-instance
    .. includecode:: ../main/java/japi/ActorExample.java
       :snippet: print-one-instance
 
-should print::
+The output should be::
 
     [id = 1, aggregate id = a] a,b
 
-When the application is restarted, persisted events are replayed to ``onEvent`` which recovers ``currentState``.
-Sending another ``Print`` command should print again::
+When the application is restarted, persisted events are replayed to ``onEvent``, which recovers ``currentState``.
+Sending another ``Print`` command should again print::
 
     [id = 1, aggregate id = a] a,b
 
-.. note::
-   In the following sections, several instances of ``ExampleActor`` are created.
-   It is assumed that they share a :ref:`replicated-event-log` and are running at different *locations*.
+Shared Event Logs
+-----------------
+In the following sections, several instances of ``ExampleActor`` are created.
+They are assumed to share a :ref:`replicated-event-log`, event though they are running at different *locations*.
 
-   A shared event log is a pre-requisite for event-sourced actors to consume each other’s events.
-   However, sharing an event log doesn’t necessarily mean broadcast communication between all actors on the same log.
-   It is the ``aggreagteId`` that determines which actors consume each other’s events.
+A shared event log is a prerequisite for event-sourced actors to consume each other’s events.
+However, sharing an event log does not necessarily mean all events are broadcasted between every actor that accesses the same log.
+The ``aggreagteId`` determines which events actors consume from other actors;
+``aggreagteId`` acts a filtering mechanism, so actors only receive events from other actors with the same ``aggreagteId``.
 
 Creating two isolated instances
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 When creating two instances of ``ExampleActor`` with different ``aggregateId``\ s, they are isolated from each other by default,
 and do not consume each other’s events:
@@ -138,8 +185,8 @@ should print::
     [id = 2, aggregate id = b] a,b
     [id = 3, aggregate id = c] x,y
 
-Creating two replica instances
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Creating Two Replica Instances
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 When creating two ``ExampleActor`` instances with the same ``aggregateId``, they consume each other’s events [#]_.
 
@@ -182,8 +229,8 @@ Again both actors consume the event and sending another ``Print`` command should
    This may cause replicas to diverge because *append* operations do not commute.
    The following sections give examples how to detect and handle concurrent updates.
 
-Detecting concurrent updates
-----------------------------
+Detecting Concurrent Updates
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Eventuate tracks *happened-before* relationships (= potential causality) of events with :ref:`vector-clocks`.
 Why is that needed at all? Let’s assume that an event-sourced actor emits an event ``e1`` for changing internal state
@@ -212,8 +259,8 @@ abstracted over so that applications don’t have to deal with these low level d
 
 .. _tracking-conflicting-versions:
 
-Tracking conflicting versions
------------------------------
+Tracking Conflicting Versions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If state update operations from concurrent events do not commute, conflicting versions of actor state arise that must be tracked and resolved.
 This can be done with Eventuate’s ``ConcurrentVersions[S, A]`` abstraction and an application-defined *update function* of
@@ -249,13 +296,13 @@ They can be resolved either automatically or interactively.
    Also, if the data type of actor state is designed in a way that update operations commute, concurrent updates can be made conflict-free.
    This is discussed in section :ref:`commutative-replicated-data-types`.
 
-Resolving conflicting versions
-------------------------------
+Resolving Conflicting Versions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _automated-conflict-resolution:
 
-Automated conflict resolution
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Automated Conflict Resolution
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The following is a simple example of automated conflict resolution:
 if a conflict has been detected, the version with the higher wall clock timestamp is selected to be the winner.
@@ -281,7 +328,7 @@ After selection, an application could even update the winner with the *merged* v
    In our example, this is the case because wall clock timestamp and emitter id comparison is transitive.
 
 Interactive conflict resolution
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Interactive conflict resolution does not resolve conflicts immediately but requests the user to inspect and resolve a conflict.
 The following is a very simple example of interactive conflict resolution: a user selects a winner version if conflicting versions of application state exist.
@@ -309,7 +356,7 @@ Support for *atomic*, interactive conflict resolution with an application-define
 
 .. _commutative-replicated-data-types:
 
-Operation-based CRDTs
+Operation-Based CRDTs
 ---------------------
 
 If state update operations commute, there’s no need to use Eventuate’s ``ConcurrentVersions`` utility.
@@ -359,7 +406,7 @@ Take a look at the `CRDT sources`_ for examples.
 
 .. _guide-event-sourced-views:
 
-Event-sourced views
+Event-Sourced Views
 -------------------
 
 Event-sourced views are a functional subset of event-sourced actors.
@@ -387,7 +434,7 @@ If it defines an ``aggregateId`` it can only consume events from event-sourced a
 
 .. _conditional-requests:
 
-Conditional requests
+Conditional Requests
 --------------------
 
 Causal read consistency is the default when reading state from a single event-sourced actor or view.
@@ -426,7 +473,7 @@ When running the example with an empty event log, it should print::
 
 .. _guide-event-driven-communication:
 
-Event-driven communication
+Event-Driven Communication
 --------------------------
 
 Earlier sections have already shown one form of event collaboration: *state replication*.
