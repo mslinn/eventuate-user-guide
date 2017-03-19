@@ -1,3 +1,7 @@
+.. |br| raw:: html
+
+   <br />
+
 .. _user-guide:
 
 ----------
@@ -51,6 +55,16 @@ No separate Javadoc exists.
 Java programmers may find the Scaladoc somewhat confusing because it requires rudimentary knowledge of Scala in order to interpret it.
 Studying the provided working Java programs should help.
 
+The code examples use Scala 2.12, because the Spark adapter is not used.
+Most of Eventuate is compatible with Scala 2.12, with the exception of the
+`Spark Adapter < http://rbmhtechnology.github.io/eventuate/adapters/spark.html>`_.
+Spark does not yet support Scala 2.12, and it will be a while before it does.
+
+The database used is `LevelDB <https://github.com/google/leveldb>`_, an open source project by Google, written in C++.
+LevelDB is a fast key-value storage the provides ordered mapping from ``Array[Byte]`` keys to ``Array[Byte]`` values.
+The Eventuate project uses a `JNI wrapper for LevelDB <https://github.com/fusesource/leveldbjni>`_ to implement a
+`Scala wrapper <http://rbmhtechnology.github.io/eventuate/latest/api/index.html#com.rbmhtechnology.eventuate.log.leveldb.package>`_.
+
 .. _Scaladoc: http://rbmhtechnology.github.io/eventuate/latest/api/index.html
 
 Event-Sourced Actors
@@ -84,18 +98,44 @@ This is one of the differences between the two languages; not only Scala is much
 ^^^^^^^^^^^^^^^^
 This code example for this section and the next is provided in the accompanying source code for this User Guide,
 in the ``ActorExample.scala`` and ``ActorExample.java`` programs.
-To run this code, move to the ``eventuate-user-guide`` directory. To run the Scala version, type::
+To run this code, move to the ``eventuate-user-guide`` directory.
+You can run this example from IntelliJ IDEA by launching ``sapi.ActorExample``.
+Output is::
+
+    Connected to the target VM, address: '127.0.0.1:55525', transport: 'socket'
+    [id = 5, aggregate id = d] a,b,a,b
+    [WARN] [SECURITY][03/19/2017 14:36:21.262] [location-eventuate.log.dispatchers.write-dispatcher-6] [akka.serialization.Serialization(akka://location)] Using the default Java serializer for class [sapi.ActorExample$Appended] which is not recommended because of performance implications. Use another serializer or disable this warning using the setting 'akka.actor.warn-about-java-serializer-usage'
+    [id = 4, aggregate id = d] a,b,a,b,a
+    [id = 2, aggregate id = b] a,b,a,b,a,b
+    [id = 1, aggregate id = a] a,b,a,b,a,b
+    [id = 3, aggregate id = c] x,y,x,y,x,y
+    [id = 5, aggregate id = d] a,b,a,b,a,b
+    [id = 4, aggregate id = d] a,b,a,b,a,b
+    Disconnected from the target VM, address: '127.0.0.1:55525', transport: 'socket'
+
+    Process finished with exit code 0
+
+TODO: get rid of the default Java serializer warning.
+
+To run the Scala version from the command line, type::
 
     sbt "runMain sapi.ActorExample"
 
-FIXME: Uncaught error from thread [location-eventuate.log.dispatchers.write-dispatcher-7] shutting down JVM since 'akka.jvm-exit-on-fatal-error' is enabled for ActorSystem[location]
-java.lang.UnsatisfiedLinkError: org.fusesource.leveldbjni.internal.NativeOptions.init()V
-See http://stackoverflow.com/questions/19425613/unsatisfiedlinkerror-with-native-library-under-sbt
+
+FIXME: Uncaught error from thread [location-eventuate.log.dispatchers.write-dispatcher-7] shutting down JVM since
+'akka.jvm-exit-on-fatal-error' is enabled for ActorSystem[location]
+java.lang.UnsatisfiedLinkError: org.fusesource.leveldbjni.internal.NativeOptions.init()V |br|
+|br|
+See http://stackoverflow.com/questions/19425613/unsatisfiedlinkerror-with-native-library-under-sbt |br|
+|br|
 I tried setting ``fork in Runtime := true`` but no joy
 
 To run the Java version, type::
 
     sbt "runMain japi.ActorExample"
+
+FIXME: It is clear that none of the Java examples have ever worked.
+I addressed the problems that I understood, but more problems remain.
 
 .. tabbed-code::
    .. includecode:: ../main/scala/sapi/ActorExample.scala
