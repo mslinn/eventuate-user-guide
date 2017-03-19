@@ -65,6 +65,9 @@ LevelDB is a fast key-value storage the provides ordered mapping from ``Array[By
 The Eventuate project uses a `JNI wrapper for LevelDB <https://github.com/fusesource/leveldbjni>`_ to implement a
 `Scala wrapper <http://rbmhtechnology.github.io/eventuate/latest/api/index.html#com.rbmhtechnology.eventuate.log.leveldb.package>`_.
 
+Configuration values are provided in src/main/resources/application.conf::
+  .. includecode:: ../main/resources/application.conf
+
 .. _Scaladoc: http://rbmhtechnology.github.io/eventuate/latest/api/index.html
 
 Event-Sourced Actors
