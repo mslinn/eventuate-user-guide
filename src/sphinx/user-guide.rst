@@ -28,7 +28,7 @@ The user guide only scratches the surface of Eventuate.
 You can find further details in the :ref:`reference` documentation.
 
 Prerequisites
-^^^^^^^^^^^^^
+-------------
 Before working through this user guide you should:
 
 * Be familiar with the Eventuate :ref:`overview` and :ref:`architecture`.
@@ -48,7 +48,7 @@ Before working through this user guide you should:
 .. _guide-event-sourced-actors:
 
 About the Code Examples
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 Code examples in this document are provided for Scala and Java.
 The `Scaladoc`_ is currently the API reference for both Scala and Java.
 No separate Javadoc exists.
@@ -99,8 +99,8 @@ In the following code, ``ExampleActor`` encapsulates state ``currentState`` of t
 Note that the Java code is a lot longer than the Scala version.
 This is one of the differences between the two languages; not only Scala is much more succinct, it is also more expressive and flexible.
 
-``ActorExample``
-^^^^^^^^^^^^^^^^
+ActorExample
+------------
 This code example for this section and the next is provided in the accompanying source code for this User Guide,
 in the ``ActorExample.scala`` and ``ActorExample.java`` programs.
 To run this code, move to the ``eventuate-user-guide`` directory.
@@ -175,9 +175,8 @@ which recovers internal state. Only then may new commands be processed.
 .. _persistOn: http://rbmhtechnology.github.io/eventuate/latest/api/index.html#com.rbmhtechnology.eventuate.PersistOnEvent@persistOnEvent[A](event:A,customDestinationAggregateIds:Set[String]):Unit
 .. _persistOnEvent: http://rbmhtechnology.github.io/eventuate/latest/api/com/rbmhtechnology/eventuate/PersistOnEvent.html
 
-Working With a Single Instance of an EventsourcedActor Subclass
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+Working With a Single Instance of an EventsourcedActor
+------------------------------------------------------
 In the following, a single instance of ``ExampleActor`` is created and two ``Append`` commands are sent to it:
 
 .. tabbed-code::
@@ -215,7 +214,7 @@ The ``aggreagteId`` determines which events actors consume from other actors;
 from other actors with the same ``aggreagteId`` value.
 
 Isolated EventsourcedActor Instances
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------
 ``EventsourcedActor`` instances with different ``aggregateId`` values are isolated from each other,
 which means they do not consume each other’s events:
 
@@ -239,8 +238,7 @@ should display::
     [id = 3, aggregate id = c] x,y
 
 Replicated EventsourcedActor Instances
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+--------------------------------------
 ``EventsourcedActor`` instances with the same ``aggregateId`` are replicants, which means they consume each other’s events [#]_.
 
 .. tabbed-code::
@@ -312,10 +310,10 @@ new event in order to determine whether the new event is causally related to the
    .. includecode:: ../main/java/japi/ConcurrentExample.java
       :snippet: detecting-concurrent-update
 
-  The Java code is not executable at this time; hopefully we will address that soon.
-  You can run the Scala code from the command line by typing::
+The Java code is not executable at this time; hopefully we will address that soon.
+You can run the Scala code from the command line by typing::
 
-      sbt "runMain sapi.ConcurrentExample"
+    sbt "runMain sapi.ConcurrentExample"
 
 .. _tracking-conflicting-versions:
 
@@ -369,8 +367,7 @@ This is discussed in the :ref:`commutative-replicated-data-types` section of thi
 .. _automated-conflict-resolution:
 
 Automated Conflict Resolution
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+-----------------------------
 The following is a simple example of automated conflict resolution:
 if a conflict has been detected, the version with the higher wall clock timestamp is selected to be the winner.
 In case of equal wall clock timestamps, the version with the lower emitter id is selected.
@@ -401,8 +398,7 @@ You can run the Scala code the command line by typing::
    In our example, this is the case because wall clock timestamp and emitter id comparison is transitive.
 
 Interactive conflict resolution
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+-------------------------------
 Interactive conflict resolution does not resolve conflicts immediately but requests the user to inspect and resolve a conflict.
 The following is a very simple example of interactive conflict resolution: a user selects a winner version if conflicting versions of application state exist.
 
@@ -436,7 +432,6 @@ You can run the Scala code the command line by typing::
 
 Operation-Based CRDTs
 ---------------------
-
 If state update operations commute, there’s no need to use Eventuate’s ``ConcurrentVersions`` utility.
 A simple example is a replicated counter, which converges because its increment and decrement operations commute.
 
@@ -486,7 +481,6 @@ Take a look at the `CRDT sources`_ for examples.
 
 Event-Sourced Views
 -------------------
-
 Event-sourced views are a functional subset of event-sourced actors.
 They can only consume events from an event log but cannot produce new events.
 Concrete event-sourced views must implement the ``EventsourcedView`` trait.
@@ -519,7 +513,6 @@ If it defines an ``aggregateId`` it can only consume events from event-sourced a
 
 Conditional Requests
 --------------------
-
 Causal read consistency is the default when reading state from a single event-sourced actor or view.
 The event stream received by that actor is always causally ordered, hence, it will never see an *effect* before having seen its *cause*.
 
@@ -564,7 +557,6 @@ When running the example with an empty event log, it should display::
 
 Event-Driven Communication
 --------------------------
-
 Earlier sections have already shown one form of event collaboration: *state replication*.
 For that purpose, event-sourced actors of the same type exchange their events to re-construct actor state at different locations.
 
