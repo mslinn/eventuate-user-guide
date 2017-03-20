@@ -23,7 +23,7 @@ Table of contents
 -----------------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 9
 
    getting-started
    overview

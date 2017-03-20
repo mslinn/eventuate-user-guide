@@ -42,8 +42,9 @@ Before working through this user guide you should:
 * To work through the Scala examples, you should be familiar with programming Scala.
   The ultimate reference for Scala is `Programming in Scala <https://www.artima.com/shop/programming_in_scala>`_;
   this book takes most people weeks or months of dedicated reading to complete, and years to assimilate.
-  A faster and better way to learn is via `ScalaCourses.com <https://www.GetScala.com>`_,
-  and their Intermediate Scala course also teaches what you need to know about Akka to work through this user guide.
+  A faster and better way to learn is via `ScalaCourses.com <https://www.GetScala.com>`_.
+  Their Inroduction to Scala starts you off with Scala, SBT and various editors.
+  Their Intermediate Scala course teaches the more advanced Scala and enough Akka to work through this user guide.
 
 .. _guide-event-sourced-actors:
 
@@ -57,8 +58,8 @@ Studying the provided working Java programs should help.
 
 The code examples use Scala 2.12, because the Spark adapter is not used.
 Most of Eventuate is compatible with Scala 2.12, with the exception of the
-`Spark Adapter < http://rbmhtechnology.github.io/eventuate/adapters/spark.html>`_.
-Spark does not yet support Scala 2.12, and it will be a while before it does.
+`Spark Adapter <http://rbmhtechnology.github.io/eventuate/adapters/spark.html>`_.
+Spark does not yet support Scala 2.12, and Scala 2.12 support will be slow in coming.
 
 The database used is `LevelDB <https://github.com/google/leveldb>`_, an open source project by Google, written in C++.
 LevelDB is a fast key-value storage the provides ordered mapping from ``Array[Byte]`` keys to ``Array[Byte]`` values.
@@ -100,7 +101,7 @@ Note that the Java code is a lot longer than the Scala version.
 This is one of the differences between the two languages; not only Scala is much more succinct, it is also more expressive and flexible.
 
 ActorExample
-------------
+^^^^^^^^^^^^
 This code example for this section and the next is provided in the accompanying source code for this User Guide,
 in the ``ActorExample.scala`` and ``ActorExample.java`` programs.
 To run this code, move to the ``eventuate-user-guide`` directory.
@@ -176,7 +177,7 @@ which recovers internal state. Only then may new commands be processed.
 .. _persistOnEvent: http://rbmhtechnology.github.io/eventuate/latest/api/com/rbmhtechnology/eventuate/PersistOnEvent.html
 
 Working With a Single Instance of an EventsourcedActor
-------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 In the following, a single instance of ``ExampleActor`` is created and two ``Append`` commands are sent to it:
 
 .. tabbed-code::
@@ -203,7 +204,7 @@ Sending another ``Print`` command should again print::
     [id = 1, aggregate id = a] a,b
 
 Shared Event Logs
------------------
+^^^^^^^^^^^^^^^^^
 In the following sections, several instances of ``ExampleActor`` are created.
 They share a :ref:`replicated-event-log`, event though they are running at different *locations*.
 
@@ -214,7 +215,7 @@ The ``aggreagteId`` determines which events actors consume from other actors;
 from other actors with the same ``aggreagteId`` value.
 
 Isolated EventsourcedActor Instances
-------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ``EventsourcedActor`` instances with different ``aggregateId`` values are isolated from each other,
 which means they do not consume each other’s events:
 
@@ -238,7 +239,7 @@ should display::
     [id = 3, aggregate id = c] x,y
 
 Replicated EventsourcedActor Instances
---------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ``EventsourcedActor`` instances with the same ``aggregateId`` are replicants, which means they consume each other’s events [#]_.
 
 .. tabbed-code::
@@ -288,7 +289,7 @@ sending another ``Print`` command should display::
    The following sections give examples how to detect and handle concurrent updates.
 
 Detecting Concurrent Updates
-----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Eventuate tracks *happened-before* relationships of events (events that are potentially causally related) with :ref:`vector-clocks`.
 Lets consider for a moment why this is important. Assume that an event-sourced actor emits an event ``e1`` for changing internal state
 and later receives an event ``e2`` from a replica instance. If the replica instance emits ``e2`` after having processed ``e1``,
@@ -319,8 +320,8 @@ You can run the Scala code from the command line by typing::
 
 .. _tracking-conflicting-versions:
 
-Tracking Conflicting Versions
------------------------------
+Identifying Conflicting Versions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This section demonstrates that update timestamps can be stored in an actor's current state and compared with
 the vector timestamps of new events.
 We will also see that this process can be abstracted, so that applications do not need to deal with these low level details.
@@ -361,7 +362,7 @@ You can run the Scala code from the command line by typing::
     sbt "runMain sapi.TrackingExample"
 
 Resolving Conflicting Versions
-------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Only concurrent updates to replicas with the same ``aggregateId`` may conflict.
 Concurrent updates to actors with different ``aggregateId`` do not conflict, unless an application performs custom :ref:`event-routing`.
 
@@ -371,7 +372,7 @@ This is discussed in the :ref:`commutative-replicated-data-types` section of thi
 .. _automated-conflict-resolution:
 
 Automated Conflict Resolution
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The following is a simple example of automated conflict resolution:
 if a conflict has been detected, the version with the higher wall clock timestamp is selected to be the winner.
 In case of equal wall clock timestamps, the version with the lower emitter id is selected.
@@ -404,7 +405,7 @@ You can run the Scala code the command line by typing::
    In our example, this is the case because wall clock timestamp and emitter id comparison is transitive.
 
 Interactive conflict resolution
--------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Interactive conflict resolution does not resolve conflicts immediately but requests the user to inspect and resolve a conflict.
 The following is a very simple example of interactive conflict resolution: a user selects a winner version if conflicting versions of application state exist.
 
@@ -440,7 +441,7 @@ You can run the Scala code the command line by typing::
 
 Operation-Based CRDTs
 ---------------------
-If state update operations commute, there is no need to use Eventuate’s ``ConcurrentVersions`` utility.
+If state update operations commute there is no need to use Eventuate’s ``ConcurrentVersions`` utility.
 To illustrate this, let's examine a simple example: a replicated counter,
 which converges because its increment and decrement operations commute.
 
@@ -448,7 +449,7 @@ A formal approach to commutative replicated data types
 (also known as CmRDTs, or `operation-based CRDTs <https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type#Operation-based_CRDTs>`_)
 is given in the paper
 `A comprehensive study of Convergent and Commutative Replicated Data Types`_ by Marc Shapiro et al.
-Eventuate provides a strong foundation for implementing operation-based CRDTs:
+Eventuate provides a strong foundation for implementing operation-based CRDTs because:
 
 - Update operations can be modeled as events and reliably broadcasted to all replicas by a :ref:`replicated-event-log`.
 - The command and event handler of an event-sourced actor can be used to implement the two update phases mentioned in
@@ -461,7 +462,7 @@ These are *Counter*, *MV-Register*, *LWW-Register*, *OR-Set* and *OR-Cart* (a sh
 They can be instantiated and used via their corresponding *CRDT services*.
 CRDT operations are asynchronous methods on the service interfaces.
 CRDT services free applications from dealing with low-level details like event-sourced actors or command messages directly.
-The following is the definition of ORSetService_:
+This is the definition of ORSetService_:
 
 .. tabbed-code::
     .. includecode:: ../../eventuate-crdt/main/scala/com/rbmhtechnology/eventuate/crdt/ORSet.scala

@@ -30,7 +30,7 @@ audio:not([controls]) {
 }
 
 html {
-  font-size: 100%;
+  font-size: 12pt;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
 }
@@ -75,7 +75,7 @@ mark {
 pre, code, .rst-content tt, kbd, samp {
   font-family: monospace, serif;
   _font-family: "courier new", monospace;
-  font-size: 1em;
+  font-size: 90%;
 }
 
 pre {
@@ -3628,7 +3628,7 @@ html {
 body {
   font-family: "open-sans", "Helvetica Neue", Arial, sans-serif;
   font-weight: normal;
-  color: #404040;
+  color: #242424;
   min-height: 100%;
   overflow-x: hidden;
   background: #edf0f2;
@@ -3712,7 +3712,11 @@ p {
   line-height: 24px;
   margin: 0;
   font-size: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
+}
+
+p + p {
+  margin-top: 12px;
 }
 
 h1 {
@@ -3751,16 +3755,16 @@ hr {
 code, .rst-content tt {
   white-space: nowrap;
   max-width: 100%;
-  background: #fff;
-  border: solid 1px #e1e4e5;
-  font-size: 75%;
-  padding: 0 5px;
-  font-family: "open-sans", "Helvetica Neue", Arial, sans-serif;
-  color: #E74C3C;
+  background: none;
+  /*border: solid 1px #e1e4e5;*/
+  font-size: 90%;
+  /*padding: 0 5px;*/
+  font-family: "open-sans", "Helvetica Neue", sans-serif;
+  color: black;
   overflow-x: auto;
 }
 code.code-large, .rst-content tt.code-large {
-  font-size: 90%;
+  font-size: 100%;
 }
 
 .wy-plain-list-disc, .rst-content .section ul, .rst-content .toctree-wrapper ul, article ul {
@@ -3786,6 +3790,48 @@ code.code-large, .rst-content tt.code-large {
 }
 .wy-plain-list-disc li ol li, .rst-content .section ul li ol li, .rst-content .toctree-wrapper ul li ol li, article ul li ol li {
   list-style: decimal;
+}
+
+.toctree-l2 {
+  text-indent: 0.5em;
+  white-space: nowrap;
+}
+.toctree-l3 {
+  text-indent: 1em;
+  white-space: nowrap;
+}
+.toctree-l4 {
+  text-indent: 1.5em;
+  white-space: nowrap;
+}
+.toctree-l5 {
+  text-indent: 2em;
+  white-space: nowrap;
+}
+.toctree-l6 {
+  text-indent: 2.5em;
+  white-space: nowrap;
+}
+
+.document .section h1 {
+  color: black;
+  font-size: 36px;
+}
+.document .section h2 {
+  font-size: 30px;
+  color: #202325;
+}
+.document .section h3 {
+  font-size: 24px;
+  color: #343739;
+}
+.document .section h4 {
+  font-size: 22px;
+  color: #494c4e;
+}
+.document .section h5 {
+  font-size: 18px;
+  color: #56595b;
 }
 
 .wy-plain-list-decimal, .rst-content .section ol, .rst-content ol.arabic, article ol {
@@ -3837,6 +3883,7 @@ code.code-large, .rst-content tt.code-large {
   background: #fff;
   margin: 1px 0 24px 0;
 }
+
 .codeblock div[class^='highlight'], pre.literal-block div[class^='highlight'], .rst-content .literal-block div[class^='highlight'], div[class^='highlight'] div[class^='highlight'] {
   border: none;
   background: none;
@@ -3860,7 +3907,7 @@ div[class^='highlight'] td.code {
 div[class^='highlight'] pre {
   white-space: pre;
   margin: 0;
-  padding: 12px 12px;
+  /*padding: 12px 12px;*/
   font-family: "open-sans", "Helvetica Neue", Arial, sans-serif;
   font-size: 12px;
   line-height: 1.5;
@@ -4619,7 +4666,7 @@ h4 {
 }
 
 .wy-menu-vertical a, .wy-menu-vertical li.current a {
-  color: #646567;
+  color: #242424;
 }
 
 .wy-menu-vertical a:hover, .wy-menu-vertical li.current > a:hover, .wy-menu-vertical li.current a:hover {
@@ -4642,9 +4689,9 @@ h4 {
   background-color: #f2940a;
 }
 
-.rst-content .warning {
+/*.rst-content .warning {
   background-color: rgba(242, 148, 10, 0.1);
-}
+}*/
 
 .btn-neutral {
   background-color: #f8f8f8;
@@ -4659,7 +4706,8 @@ h4 {
 }
 
 code, .rst-content tt, .rst-content tt {
-  color: #db0a40;
+  color: black;
+  background: none;
   font-family: "Lucida Console", Monaco, monospace;
 }
 
@@ -4767,10 +4815,11 @@ footer p {
   background: #f8f8f8 !important;
   padding: 7px 7px 7px 10px !important;
   border: 1px solid #ddd !important;
-  -moz-box-shadow: 3px 3px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 4px;
+  /*-moz-box-shadow: 3px 3px rgba(0, 0, 0, 0.1) !important;
   -webkit-box-shadow: 3px 3px rgba(0, 0, 0, 0.1) !important;
-  box-shadow: 3px 3px rgba(0, 0, 0, 0.1) !important;
-  margin: 20px 0 20px 0 !important;
+  box-shadow: 3px 3px rgba(0, 0, 0, 0.1) !important;*/
+  margin: 10px 0 10px 0 !important;
 }
 
 div[class^='highlight'] pre {
@@ -4783,7 +4832,7 @@ div[class^='highlight'] pre {
 }
 
 body {
-  color: #646567;
+  color: #242424;
 }
 
 blockquote {
@@ -5109,7 +5158,7 @@ td input:focus {
 }
 .rst-content .footnote-reference, .rst-content .citation-reference {
   vertical-align: super;
-  font-size: 90%;
+  font-size: 8pt;
 }
 .rst-content table.docutils.citation, .rst-content table.docutils.footnote {
   background: none;
