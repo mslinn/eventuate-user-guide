@@ -18,13 +18,6 @@ package sapi
 
 object ConditionalExample extends App {
   import akka.actor._
-  import com.rbmhtechnology.eventuate.ReplicationConnection
-  import com.rbmhtechnology.eventuate.log.leveldb.LeveldbEventLog
-
-  implicit val system: ActorSystem = ActorSystem(ReplicationConnection.DefaultRemoteSystemName)
-  // This will create a directory called `target/log-qt-2/` to contain the log files
-  val eventLog: ActorRef = system.actorOf(LeveldbEventLog.props("qt-2"))
-
   //#conditional-requests
   import akka.pattern.ask
   import akka.util.Timeout
@@ -33,6 +26,15 @@ object ConditionalExample extends App {
   import scala.concurrent.duration._
   import scala.util._
 
+  //#
+  import com.rbmhtechnology.eventuate.log.leveldb.LeveldbEventLog
+
+  implicit val system: ActorSystem = ActorSystem(ReplicationConnection.DefaultRemoteSystemName)
+
+  // This will create a directory called `target/log-qt-2/` to contain the log files
+  val eventLog: ActorRef = system.actorOf(LeveldbEventLog.props("qt-2"))
+
+  //#conditional-requests
   case class Append(entry: String)
   case class Appended(entry: String)
   case class AppendSuccess(entry: String, updateTimestamp: VectorTime)
@@ -48,6 +50,7 @@ object ConditionalExample extends App {
       case Append(entry) => persist(Appended(entry)) {
         case Success(_) =>
           sender() ! AppendSuccess(entry, lastVectorTimestamp)
+
         case Failure(_) =>
           // ...
       }
@@ -72,8 +75,8 @@ object ConditionalExample extends App {
     }
 
     override def onEvent: PartialFunction[Any, Unit] = {
-      case Appended(_) => appendCount += 1L
-      case Resolved(_) => resolveCount += 1L
+      case _: Appended => appendCount += 1L
+      case _: Resolved => resolveCount += 1L
     }
   //#conditional-requests
   }

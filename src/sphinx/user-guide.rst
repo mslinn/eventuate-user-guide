@@ -310,7 +310,9 @@ new event in order to determine whether the new event is causally related to the
    .. includecode:: ../main/java/japi/ConcurrentExample.java
       :snippet: detecting-concurrent-update
 
-The Java code is not executable at this time; hopefully we will address that soon.
+The Java code
+(`japi.ConcurrentExample <https://github.com/RBMHTechnology/eventuate/tree/master/src/sphinx/code/userguide/japi/ConcurrentExample>`_)
+is not executable at this time; hopefully we will address that soon.
 You can run the Scala code from the command line by typing::
 
     sbt "runMain sapi.ConcurrentExample"
@@ -351,7 +353,9 @@ If ``all`` contains only a single element, there is no conflict and the element 
 If the sequence contains two or more elements, there is a conflict where the elements represent conflicting versions of actor states.
 They can be resolved either automatically or interactively.
 
-The Java code is not executable at this time; hopefully we will address that soon.
+The Java code
+(`japi.TrackingExample <https://github.com/RBMHTechnology/eventuate/tree/master/src/sphinx/code/userguide/japi/TrackingExample>`_)
+is not executable at this time; hopefully we will address that soon.
 You can run the Scala code from the command line by typing::
 
     sbt "runMain sapi.TrackingExample"
@@ -388,7 +392,9 @@ Its vector timestamp is passed as argument to ``resolve``, which selects this ve
 More advanced conflict resolution could select a winner depending on the actual value of concurrent versions.
 After selection, an application could even update the winner with the *merged* value of all conflicting versions\ [#]_.
 
-The Java code is not executable at this time; hopefully we will address that soon.
+The Java code
+(`japi.ResolveExample <https://github.com/RBMHTechnology/eventuate/tree/master/src/sphinx/code/userguide/japi/ResolveExample>`_)
+is not executable at this time; hopefully we will address that soon.
 You can run the Scala code the command line by typing::
 
     sbt "runMain sapi.ResolveExample"
@@ -417,7 +423,9 @@ In addition to just selecting a winner, an application could also update the win
 with a value derived from the merge result of conflicting versions.
 Support for *atomic*, interactive conflict resolution with an application-defined merge function is planned for later Eventuate releases.
 
-The Java code is not executable at this time; hopefully we will address that soon.
+The Java code
+(`japi.InteractiveResolveExample <https://github.com/RBMHTechnology/eventuate/tree/master/src/sphinx/code/userguide/japi/InteractiveResolveExample>`_)
+is not executable at this time; hopefully we will address that soon.
 You can run the Scala code the command line by typing::
 
     sbt "runMain sapi.InteractiveResolveExample"
@@ -432,20 +440,23 @@ You can run the Scala code the command line by typing::
 
 Operation-Based CRDTs
 ---------------------
-If state update operations commute, there’s no need to use Eventuate’s ``ConcurrentVersions`` utility.
-A simple example is a replicated counter, which converges because its increment and decrement operations commute.
+If state update operations commute, there is no need to use Eventuate’s ``ConcurrentVersions`` utility.
+To illustrate this, let's examine a simple example: a replicated counter,
+which converges because its increment and decrement operations commute.
 
-A formal approach to commutative replicated data types (CmRDTs) or operation-based CRDTs is given in the paper
+A formal approach to commutative replicated data types
+(also known as CmRDTs, or `operation-based CRDTs <https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type#Operation-based_CRDTs>`_)
+is given in the paper
 `A comprehensive study of Convergent and Commutative Replicated Data Types`_ by Marc Shapiro et al.
-Eventuate is a good basis for implementing operation-based CRDTs:
+Eventuate provides a strong foundation for implementing operation-based CRDTs:
 
 - Update operations can be modeled as events and reliably broadcasted to all replicas by a :ref:`replicated-event-log`.
-- The command and event handler of an event-sourced actor can be used to implement the two update phases mentioned in the paper:
-  *atSource* and *downstream*, respectively.
+- The command and event handler of an event-sourced actor can be used to implement the two update phases mentioned in
+  the aforementioned paper: *atSource* (first mentioned on page 7) and *downstream* (first mentioned on page 5).
 - All *downstream* preconditions mentioned in the paper are satisfied in case of causal delivery of update operations
   which is guaranteed for actors consuming from a replicated event log.
 
-Eventuate currently implements 5 out of 12 operation-based CRDTs specified in the paper.
+Eventuate currently implements 5 out of 12 operation-based CRDTs specified in the cited paper.
 These are *Counter*, *MV-Register*, *LWW-Register*, *OR-Set* and *OR-Cart* (a shopping cart CRDT).
 They can be instantiated and used via their corresponding *CRDT services*.
 CRDT operations are asynchronous methods on the service interfaces.
@@ -472,10 +483,9 @@ New operation-based CRDTs and their corresponding services can be developed with
 by defining an instance of the CRDTServiceOps_ type class and implementing the CRDTService_ trait.
 Take a look at the `CRDT sources`_ for examples.
 
-.. hint::
-   Eventuate’s CRDT approach is also described in `this article`_.
+Eventuate’s CRDT approach is described in `A service framework for operation-based CRDTs`_, by Martin Krasser (2016).
 
-.. _this article: http://krasserm.github.io/2016/10/19/operation-based-crdt-framework/
+.. _A service framework for operation-based CRDTs: http://krasserm.github.io/2016/10/19/operation-based-crdt-framework/
 
 .. _guide-event-sourced-views:
 
@@ -484,7 +494,8 @@ Event-Sourced Views
 Event-sourced views are a functional subset of event-sourced actors.
 They can only consume events from an event log but cannot produce new events.
 Concrete event-sourced views must implement the ``EventsourcedView`` trait.
-In the following example, the view counts all ``Appended`` and ``Resolved`` events emitted by all event-sourced actors to the same ``eventLog``:
+In the following example, the view counts all ``Appended`` and ``Resolved`` events emitted by all event-sourced actors
+to the same ``eventLog``:
 
 .. tabbed-code::
    .. includecode:: ../main/scala/sapi/EventsourcedViews.scala
@@ -492,7 +503,9 @@ In the following example, the view counts all ``Appended`` and ``Resolved`` even
    .. includecode:: ../main/java/japi/ViewExample.java
       :snippet: event-sourced-view
 
-The Java code is not executable at this time; hopefully we will address that soon.
+The Java code
+(`japi.ViewExample <https://github.com/RBMHTechnology/eventuate/tree/master/src/sphinx/code/userguide/japi/ViewExample>`_)
+is not executable at this time; hopefully we will address that soon.
 You can run the Scala code the command line by typing::
 
     sbt "runMain sapi.ViewExample"
@@ -500,14 +513,16 @@ You can run the Scala code the command line by typing::
 Event-sourced views handle events in the same way as event-sourced actors by implementing an ``onEvent`` handler.
 The ``onCommand`` handler in the example processes the queries ``GetAppendCount`` and ``GetResolveCount``.
 
-``ExampleView`` implements the mandatory global unique ``id`` but doesn’t define an ``aggregateId``.
-A view that doesn’t define an ``aggregateId`` can consume events from all event-sourced actors on the same event log.
-If it defines an ``aggregateId`` it can only consume events from event-sourced actors with the same ``aggregateId``
-(assuming the default :ref:`event-routing` rules).
+``ExampleView`` implements the mandatory global unique ``id`` but does not define an ``aggregateId``.
+A view that does not define an ``aggregateId`` can consume events from all event-sourced actors on the same event log.
+If instead it does define an ``aggregateId``, it can only consume events from event-sourced actors with the same ``aggregateId``,
+providing that it follows the default :ref:`event-routing` rules.
 
 .. hint::
-   While event-sourced views maintain view state in-memory, :ref:`ref-event-sourced-writers` can be used to persist view state to external databases.
+   While event-sourced views maintain view state in-memory, :ref:`ref-event-sourced-writers` can be used to persist
+   view state to external databases.
    A specialization of event-sourced writers are :ref:`ref-event-sourced-processors` whose external database is an event log.
+   TODO say why this is significant.
 
 .. _conditional-requests:
 
@@ -518,7 +533,7 @@ The event stream received by that actor is always causally ordered, hence, it wi
 
 The situation is different when a client reads from multiple actors.
 Imagine two event-sourced actor replicas where a client updates one replica and observes the updated state with the reply.
-A subsequent from the other replica, made by the same client, may return the old state which violates causal consistency.
+A subsequent (TODO what?) from the other replica, made by the same client, may return the old state which violates causal consistency.
 
 Similar considerations can be made for reading from an event-sourced view after having made an update to an event-sourced actor.
 For example, an application that successfully appended an entry to ``ExampleActor`` may not immediately see that update in
@@ -532,7 +547,7 @@ This can be achieved with a ``ConditionalRequest``.
    .. includecode:: ../main/java/japi/ConditionalExample.java
       :snippet: conditional-requests
 
-Here, the ``ExampleActor`` includes the event’s vector timestamp in its ``AppendSuccess`` reply.
+Here, the ``ExampleActor`` includes the event’s vector timestamp in its ``AppendSuccess(entry, lastVectorTimestamp)`` reply.
 Together with the actual ``GetAppendCount`` command, the timestamp is included as condition in a ``ConditionalRequest``
 and sent to the view.
 For ``ConditionalRequest`` processing, an event-sourced view must extend the ``ConditionalRequests`` trait.
@@ -540,7 +555,9 @@ For ``ConditionalRequest`` processing, an event-sourced view must extend the ``C
 view’s ``onCommand`` handler if the condition timestamp is in the *causal past* of the view (which is earliest the case
 when the view consumed the update event).
 
-The Java code is not executable at this time; hopefully we will address that soon.
+The Java code
+(`japi.ConditionalExample <https://github.com/RBMHTechnology/eventuate/tree/master/src/sphinx/code/userguide/japi/ConditionalExample>`_)
+is not executable at this time; hopefully we will address that soon.
 You can run the Scala code the command line by typing::
 
     sbt "runMain sapi.ConditionalExample"
@@ -550,8 +567,14 @@ When running the example with an empty event log, it should display::
     append count = 1
 
 .. note::
-   Not only event-sourced views but also event-sourced actors, stateful event-sourced writers and processors can extend ``ConditionalRequests``.
-   Delaying conditional requests may re-order them relative to other conditional and non-conditional requests.
+   Event-sourced actors, stateful
+   `event-sourced writers <http://rbmhtechnology.github.io/eventuate/latest/api/index.html#com.rbmhtechnology.eventuate.EventsourcedWriter>`_
+   and `processors <http://rbmhtechnology.github.io/eventuate/latest/api/index.html#com.rbmhtechnology.eventuate.EventsourcedProcessor>`_
+   can also extend ``ConditionalRequests``, just as event-sourced views can.
+
+.. note::
+   Delaying conditional requests may cause them to be re-ordered relative to other conditional and non-conditional requests.
+   TODO Describe what this looks like
 
 .. _guide-event-driven-communication:
 
@@ -582,7 +605,9 @@ For that purpose, the actor has to mixin the ``PersistOnEvent`` trait and use th
 The emitted ``Pong`` too isn’t consumed by its emitter but rather by the ``PingActor``, emitting another ``Ping``, and so on.
 The game ends when the ``PingActor`` received the 10th ``Pong``.
 
-The Java code is not executable at this time; hopefully we will address that soon.
+The Java code
+(`japi.CommunicationExample <https://github.com/RBMHTechnology/eventuate/tree/master/src/sphinx/code/userguide/japi/CommunicationExample>`_)
+is not executable at this time; hopefully we will address that soon.
 You can run the Scala code the command line by typing::
 
     sbt "runMain sapi.CommunicationExample"
@@ -605,8 +630,7 @@ These actors can be considered as event-driven and event-sourced *microservices*
 collaborating on a causally ordered event stream in a reliable and partition-tolerant way.
 Furthermore, when partitioned, they remain available for local writes and automatically catch up with their collaborators when the partition heals.
 
-.. hint::
-   Further ``persistOnEvent`` details are described in the PersistOnEvent_ API docs.
+Further ``persistOnEvent`` details are described in the PersistOnEvent_ API docs.
 
 .. _ZooKeeper: http://zookeeper.apache.org/
 .. _event sourcing: http://martinfowler.com/eaaDev/EventSourcing.html

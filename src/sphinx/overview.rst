@@ -13,7 +13,7 @@ Event sourcing
 
 `Event sourcing`_ captures all changes to application state as a sequence of events. These events are persisted in an event log and can be replayed to recover application state. Events are immutable facts that are only ever appended to an event log which allows for very high transaction rates and efficient replication. Eventuate provides the following :ref:`event-sourcing abstractions <event-sourcing>` which can be extended by applications:
 
-- :ref:`Event-sourced actor <event-sourced-actors>`. An Akka actor that consumes events from an event log and produces events to the same event log. Internal state derived from consumed events is an in-memory *write model* contributing to the command-side (C) of a CQRS_-based application. 
+- :ref:`Event-sourced actor <event-sourced-actors>`. An Akka actor that consumes events from an event log and produces events to the same event log. Internal state derived from consumed events is an in-memory *write model* contributing to the command-side (C) of a CQRS_-based application.
 - :ref:`Event-sourced view <event-sourced-views>`. An Akka actor that only consumes events from an event log. Internal state derived from consumed events is an in-memory *read model* contributing to the query-side (Q) of CQRS.
 - :ref:`Event-sourced writer <event-sourced-writers>`. An Akka actor that consumes events from an event log to update a persistent query database. State derived from consumed events is a persistent *read model* contributing to the query-side (Q) of CQRS.
 - :ref:`Event-sourced processor <event-sourced-processors>`. An Akka actor that consumes events from one event log and produces processed events to another event log. Processors can be used to connect event logs to event processing pipelines or graphs.
@@ -38,11 +38,11 @@ Event collaboration is reliable. For example, a distributed business process tha
 Event log
 ---------
 
-An Eventuate :ref:`Event log <event-logs>` can be operated at a single location or replicated across multiple locations. A *location* is an availability zone that accepts writes to a :ref:`local-event-log` even if it is partitioned from other locations. Local event logs from multiple locations can be connected to a :ref:`replicated-event-log` that preserves causal event ordering. 
+An Eventuate :ref:`Event log <event-logs>` can be operated at a single location or replicated across multiple locations. A *location* is an availability zone that accepts writes to a :ref:`local-event-log` even if it is partitioned from other locations. Local event logs from multiple locations can be connected to a :ref:`replicated-event-log` that preserves causal event ordering.
 
 Locations can be geographically distinct locations, nodes within a cluster or even processes on the same node, depending on the granularity of availability zones needed by an application. Event-sourced actors and processors always write to their local event log. Event-sourced components can either collaborate over a local event log at the same location or over a replicated event log at different locations.
 
-Local event logs have pluggable storage backends. At the moment, Eventuate provides plugins for a :ref:`cassandra-storage-backend` and a :ref:`leveldb-storage-backend`. The Cassandra plugin writes events to a Cassandra_ cluster and should be used if stronger durability guarantees are needed. The LevelDB storage plugin writes events to a LevelDB_ instance on the local filesystem and should be used if weaker durability guarantees are acceptable or a lightweight storage backend is needed. 
+Local event logs have pluggable storage backends. At the moment, Eventuate provides plugins for a :ref:`cassandra-storage-backend` and a :ref:`leveldb-storage-backend`. The Cassandra plugin writes events to a Cassandra_ cluster and should be used if stronger durability guarantees are needed. The LevelDB storage plugin writes events to a LevelDB_ instance on the local filesystem and should be used if weaker durability guarantees are acceptable or a lightweight storage backend is needed.
 
 Storage backends from different locations do not directly communicate with each other. Asynchronous event replication across locations is Eventuate-specific and also works between locations with different storage backends. Synchronous event replication within a storage backend at a given location is optional and only used to achieve stronger durability.
 
@@ -60,25 +60,27 @@ Event ordering and consistency
 
 The delivery order of events during push updates (see :ref:`overview-event-bus`) is identical to that during later event replays because the delivery order of events to event-sourced components is determined by local event storage order. Within a location, all event-sourced components see the same order of events. The delivery and storage order of replicated events at distinct locations is consistent with causal order: causally related events have the same order at all locations whereas concurrent events may have different order. This is important to achieve `causal consistency`_ which is the strongest possible consistency for applications that choose AP of CAP_ i.e. applications that should remain available for writes during network partitions\ [#]_. In Eventuate, causality is tracked as *potential causality* with :ref:`vector-clocks`.
 
-Applications that favor strong consistency (CP of CAP) of actor state on the command-side should consider single-location deployments with event-sourced actor singletons. From a high-level perspective, single-location Eventuate applications share many similarities with `Akka Persistence`_ applications\ [#]_\ [#]_. In this context, Eventuate can be regarded as functional superset of Akka Persistence with additional support for 
+Applications that favor strong consistency (CP of CAP) of actor state on the command-side should consider single-location deployments with event-sourced actor singletons. From a high-level perspective, single-location Eventuate applications share many similarities with `Akka Persistence`_ applications\ [#]_\ [#]_. In this context, Eventuate can be regarded as functional superset of Akka Persistence with additional support for
 
 - actor state replication by relaxing strong consistency to causal consistency
 - event aggregation from multiple producers that preserves causal event ordering and
-- event collaboration with stronger ordering guarantees than provided by plain reliable messaging\ [#]_. 
+- event collaboration with stronger ordering guarantees than provided by plain reliable messaging\ [#]_.
 
 .. _overview-operation-based-crdts:
 
 Operation-based CRDTs
 ---------------------
 
-Eventuate comes with an implementation of :ref:`operation-based-crdts` (commutative replicated data types or CmRDTs) as specified in `A comprehensive study of Convergent and Commutative Replicated Data Types`_. In contrast to state-based CRDTs (convergent replicated data types or CvRDTs), operation-based CRDTs require a reliable broadcast channel with causal delivery order for communicating update operations among replicas. Exactly these properties are provided by an Eventuate event bus so it was straightforward to implement operation-based CRDTs on top of it. Operations are persisted as events and delivered to replicas over the event bus. The state of operation-based CRDTs can be recovered by replaying these events, optionally starting from a state snapshot.
+Eventuate comes with an implementation of :ref:`operation-based-crdts` (commutative replicated data types or CmRDTs) as specified in
+`A comprehensive study of Convergent and Commutative Replicated Data Types`_.
+In contrast to state-based CRDTs (convergent replicated data types or CvRDTs), operation-based CRDTs require a reliable broadcast channel with causal delivery order for communicating update operations among replicas. Exactly these properties are provided by an Eventuate event bus so it was straightforward to implement operation-based CRDTs on top of it. Operations are persisted as events and delivered to replicas over the event bus. The state of operation-based CRDTs can be recovered by replaying these events, optionally starting from a state snapshot.
 
 .. _overview-stream-processing-adapters:
 
 Stream processing adapters
 --------------------------
 
-Although Eventuate can be used to build distributed stream processing applications, it doesn’t aim to compete with existing, more elaborate stream processing frameworks such as `Spark Streaming`_ or `Akka Streams`_, for example. Eventuate rather provides :ref:`adapters` to these frameworks so that events produced by Eventuate applications can be further analyzed there and results written back to Eventuate event logs. 
+Although Eventuate can be used to build distributed stream processing applications, it doesn’t aim to compete with existing, more elaborate stream processing frameworks such as `Spark Streaming`_ or `Akka Streams`_, for example. Eventuate rather provides :ref:`adapters` to these frameworks so that events produced by Eventuate applications can be further analyzed there and results written back to Eventuate event logs.
 
 Related projects
 ----------------
@@ -105,7 +107,7 @@ Two other Red Bull Media House Technology projects are related to Eventuate:
 .. _Event sourcing: http://martinfowler.com/eaaDev/EventSourcing.html
 .. _event collaboration: http://martinfowler.com/eaaDev/EventCollaboration.html
 .. _CAP: http://en.wikipedia.org/wiki/CAP_theorem
-.. _CRDT: http://en.wikipedia.org/wiki/Conflict-free_replicated_data_type 
+.. _CRDT: http://en.wikipedia.org/wiki/Conflict-free_replicated_data_type
 .. _CQRS: http://martinfowler.com/bliki/CQRS.html
 .. _causal consistency: http://en.wikipedia.org/wiki/Causal_consistency
 .. _reliable messaging in Akka Persistence: http://doc.akka.io/docs/akka/2.4/scala/persistence.html#At-Least-Once_Delivery
