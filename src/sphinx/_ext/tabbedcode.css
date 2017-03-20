@@ -29,5 +29,6 @@ ul.tabbed-code-selector li.selected {
 }
 
 ul.tabbed-code-selector li[class^='highlight'] {
-  border-radius: 8px;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
 }

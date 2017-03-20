@@ -14,17 +14,16 @@ What You Will Learn
 -------------------
 This user guide presents simple examples that demonstrate how to:
 
-- Implement an event-sourced actor
-- Replicate actor state with event sourcing
-- Detect concurrent updates to replicated state
-- Track conflicts from concurrent updates
-- Resolve conflicts automatically and interactively
-- Make concurrent updates conflict-free with operation-based CRDTs
-- Implement an event-sourced view over many event-sourced actors
-- Achieve causal read consistency across event-sourced actors and views and
+- Implement an event-sourced actor.
+- Replicate actor state with event sourcing.
+- Detect concurrent updates to replicated state.
+- Track conflicts from concurrent updates.
+- Resolve conflicts automatically and interactively.
+- Make concurrent updates conflict-free with operation-based CRDTs.
+- Implement an event-sourced view over many event-sourced actors.
+- Achieve causal read consistency across event-sourced actors and views.
 - Implement event-driven communication between event-sourced actors.
 
-The user guide only scratches the surface of Eventuate.
 You can find further details in the :ref:`reference` documentation.
 
 Prerequisites
@@ -45,7 +44,8 @@ Before working through this user guide you should:
   A faster and better way to learn is via `ScalaCourses.com <https://www.GetScala.com>`_.
   Their Introduction to Scala course starts you off with Scala, SBT and various editors,
   then moves on to object-oriented programming and introduces functional programming.
-  The Intermediate Scala course teaches the rest of Scala and Akka that you need to be able to work through and understand this user guide.
+  The Intermediate Scala course teaches the more advanced Scala necessary and enough Akka so you can work through and
+  understand the material presented in this user guide.
 
 .. _guide-event-sourced-actors:
 
