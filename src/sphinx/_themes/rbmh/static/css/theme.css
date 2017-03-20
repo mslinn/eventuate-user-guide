@@ -3259,6 +3259,10 @@ input[type="radio"][disabled], input[type="checkbox"][disabled] {
   cursor: not-allowed;
 }
 
+table.footnote code .pre {
+  font-size: 10pt;
+}
+
 .wy-checkbox, .wy-radio {
   margin: 6px 0;
   color: #404040;
@@ -3713,6 +3717,7 @@ p {
   margin: 0;
   font-size: 16px;
   margin-bottom: 12px;
+  text-align: justify;
 }
 
 p + p {
@@ -3775,6 +3780,7 @@ code.code-large, .rst-content tt.code-large {
 .wy-plain-list-disc li, .rst-content .section ul li, .rst-content .toctree-wrapper ul li, article ul li {
   list-style: disc;
   margin-left: 24px;
+  margin-top: 6pt;
 }
 .wy-plain-list-disc li p:last-child, .rst-content .section ul li p:last-child, .rst-content .toctree-wrapper ul li p:last-child, article ul li p:last-child {
   margin-bottom: 0;
@@ -3842,6 +3848,7 @@ code.code-large, .rst-content tt.code-large {
 .wy-plain-list-decimal li, .rst-content .section ol li, .rst-content ol.arabic li, article ol li {
   list-style: decimal;
   margin-left: 24px;
+  margin-top: 6pt;
 }
 .wy-plain-list-decimal li p:last-child, .rst-content .section ol li p:last-child, .rst-content ol.arabic li p:last-child, article ol li p:last-child {
   margin-bottom: 0;
@@ -5163,7 +5170,7 @@ td input:focus {
 .rst-content table.docutils.citation, .rst-content table.docutils.footnote {
   background: none;
   border: none;
-  color: #999;
+ /* color: #999;*/
 }
 .rst-content table.docutils.citation td, .rst-content table.docutils.citation tr, .rst-content table.docutils.footnote td, .rst-content table.docutils.footnote tr {
   border: none;
